@@ -1,0 +1,78 @@
+.home {
+  min-height: 100vh;
+  background: #0b0b0b;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.home__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home__logo {
+  font-size: 14px;
+  color: #999;
+}
+
+.home__logout {
+  width: 90px;
+  height: 40px;
+  border: none;
+  background: red;
+  color: white;
+  border-radius: 8px;
+}
+
+.home__hero {
+  margin-top: 80px;
+}
+
+.home__title {
+  font-size: 64px;
+  line-height: 1;
+}
+
+.home__title span {
+  color: red;
+}
+
+.home__text {
+  margin-top: 20px;
+  color: #aaa;
+  max-width: 300px;
+}
+
+.home__stats {
+  display: flex;
+  gap: 16px;
+  margin-top: 50px;
+}
+
+.home__card {
+  flex: 1;
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.home__card h2 {
+  font-size: 32px;
+}
+
+.home__card span {
+  color: #aaa;
+}
+
+.home__button {
+  margin-top: auto;
+  height: 50px;
+  border: none;
+  background: red;
+  color: white;
+  border-radius: 10px;
+  font-weight: bold;
+}

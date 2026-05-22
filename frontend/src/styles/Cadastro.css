@@ -1,0 +1,85 @@
+.cadastro {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0b0b0b;
+  padding: 24px;
+}
+
+.cadastro__card {
+  width: 100%;
+  max-width: 340px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cadastro__logo {
+  font-size: 12px;
+  color: #888;
+  letter-spacing: 2px;
+}
+
+.cadastro__title {
+  font-size: 44px;
+  line-height: 1;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.cadastro__title span {
+  color: red;
+}
+
+.cadastro__input {
+  height: 48px;
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+
+  padding: 0 14px;
+
+  color: white;
+  outline: none;
+
+  transition: 0.2s;
+}
+
+.cadastro__input:focus {
+  border-color: red;
+}
+
+.cadastro__button {
+  height: 48px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: red;
+  color: white;
+
+  font-weight: bold;
+  font-size: 14px;
+
+  transition: 0.2s;
+}
+
+.cadastro__button:hover {
+  opacity: 0.9;
+}
+
+.cadastro__link {
+  background: transparent;
+  border: none;
+
+  color: #999;
+
+  font-size: 14px;
+}
+
+.cadastro__erro {
+  color: red;
+  font-size: 14px;
+}

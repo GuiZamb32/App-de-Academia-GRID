@@ -1,0 +1,45 @@
+.exercicios {
+  min-height: 100vh;
+  background: #0b0b0b;
+  color: white;
+  padding: 24px;
+}
+
+.exercicios__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.exercicios__back {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+}
+
+.exercicios__title {
+  font-size: 28px;
+}
+
+.exercicios__list {
+  margin-top: 40px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.exercicio__card {
+  background: #161616;
+
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+
+  padding: 20px;
+}
+
+.exercicio__card p {
+  color: #999;
+  margin-top: 8px;
+}

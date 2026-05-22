@@ -1,0 +1,61 @@
+.criar {
+  min-height: 100vh;
+  background: #0b0b0b;
+  color: white;
+  padding: 24px;
+}
+
+.criar__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.criar__back {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+}
+
+.criar__title {
+  font-size: 28px;
+}
+
+.criar__content {
+  margin-top: 40px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.criar__input {
+  height: 48px;
+
+  background: #161616;
+
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+
+  padding: 0 14px;
+
+  color: white;
+}
+
+.criar__button {
+  height: 48px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: red;
+  color: white;
+
+  font-weight: bold;
+}
+
+.criar__erro {
+  color: red;
+  font-size: 14px;
+}

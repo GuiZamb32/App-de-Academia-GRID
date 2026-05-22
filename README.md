@@ -1,238 +1,190 @@
-# 🚀 MeuApp - Aplicação Full Stack
+# 🏋️ GRID Academy
 
-Sistema completo com backend Node.js, frontend React e PostgreSQL.
+Sistema Full Stack para gerenciamento de treinos de academia. O projeto permite o cadastro de usuários, criação de rotas de treino customizadas e organização de exercícios por grupo muscular com controle de carga.
 
-## 📋 Tecnologias
+
+
+## 🚀 Tecnologias
 
 ### Backend
-- Node.js + Express
-- PostgreSQL (com pg)
-- JWT para autenticação
-- bcrypt para criptografia de senhas
+* **Node.js** (Ambiente de execução)
+* **Express** (Framework web)
+* **PostgreSQL** (Banco de dados relacional)
+* **JWT** (Autenticação baseada em tokens)
+* **bcrypt** (Criptografia de senhas)
+* **dotenv** (Gerenciamento de variáveis de ambiente)
 
 ### Frontend
-- React 18
-- React Router DOM
-- Axios
-- Context API para gerenciamento de estado
+* **React** (Biblioteca UI)
+* **Vite** (Build tool rápida)
+* **CSS Modules** (Estilização escopada)
+* **Fetch API** (Consumo da API)
 
-## 🔧 Instalação
 
-### 1. Pré-requisitos
-- Node.js (v14+)
-- PostgreSQL (v12+)
-- pgAdmin (opcional, para gerenciar o banco)
 
-### 2. Configurar o Banco de Dados
-
-#### Usando pgAdmin:
-1. Abra o pgAdmin
-2. Crie um novo banco de dados chamado `app_database`
-3. Abra o Query Tool
-4. Execute o conteúdo do arquivo `backend/database/init.sql`
-
-#### Usando psql (linha de comando):
-```bash
-# Conectar ao PostgreSQL
-psql -U postgres
-
-# Criar banco
-CREATE DATABASE app_database;
-
-# Conectar ao banco
-\c app_database
-
-# Executar script (dentro do psql)
-\i /caminho/completo/para/backend/database/init.sql
+## 📂 Estrutura do Projeto
 ```
-
-### 3. Configurar Backend
-
-```bash
-cd backend
-
-# Instalar dependências
-npm install
-
-# Copiar arquivo de configuração
-cp .env.example .env
-
-# Editar .env e configurar suas credenciais do PostgreSQL
-# Especialmente: DB_PASSWORD e JWT_SECRET
-nano .env
-```
-
-### 4. Configurar Frontend
-
-```bash
-cd frontend
-
-# Instalar dependências
-npm install
-```
-
-## 🚀 Executar o Projeto
-
-### Opção 1: Manual (2 terminais)
-
-**Terminal 1 - Backend:**
-```bash
-cd backend
-npm start
-# ou para desenvolvimento com auto-reload:
-npm run dev
-```
-
-O backend estará rodando em: http://localhost:5000
-
-**Terminal 2 - Frontend:**
-```bash
-cd frontend
-npm start
-```
-
-O frontend estará rodando em: http://localhost:3000
-
-### Opção 2: Script Automatizado
-
-```bash
-# Na raiz do projeto
-chmod +x start-dev.sh
-./start-dev.sh
-```
-
-## 📚 Estrutura do Projeto
-
-```
-app-projeto/
-├── backend/
-│   ├── config/
-│   │   └── database.js          # Configuração PostgreSQL
-│   ├── controllers/
-│   │   └── authController.js    # Lógica de autenticação
-│   ├── database/
-│   │   └── init.sql             # Script de inicialização do BD
-│   ├── middleware/
-│   │   └── auth.js              # Middleware JWT
-│   ├── routes/
-│   │   └── auth.js              # Rotas de autenticação
-│   ├── .env.example             # Exemplo de configuração
-│   ├── package.json
-│   └── server.js                # Servidor Express
+App-de-Academia-GRID/
 │
-└── frontend/
-    ├── public/
-    │   └── index.html
-    ├── src/
-    │   ├── contexts/
-    │   │   └── AuthContext.js   # Context de autenticação
-    │   ├── pages/
-    │   │   ├── Home.js
-    │   │   ├── Home.css
-    │   │   ├── Login.js
-    │   │   ├── Cadastro.js
-    │   │   └── Auth.css
-    │   ├── services/
-    │   │   └── api.js           # Configuração Axios
-    │   ├── App.js
-    │   ├── index.js
-    │   └── index.css
-    ├── .env
-    └── package.json
+├── backend/
+│   ├── src/
+│   ├── controllers/
+│   ├── db/
+│   ├── middleware/
+│   ├── routes/
+│   ├── server.js
+│   └── app.js
+│
+├── frontend/
+│   ├── src/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── styles/
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│
+└── README.md
 ```
 
-## 🔐 API Endpoints
 
-### Autenticação
+## ⚙️ Instalação e Configuração
+### 1. Clonar o Repositório
+```
+git clone https://github.com/seu-usuario/App-de-Academia-GRID.git
+cd App-de-Academia-GRID
 
-**POST /api/auth/registrar**
-```json
+
+```
+### 2. Configuração do Banco de Dados (PostgreSQL)
+```
+Abra o pgAdmin (ou seu SGBD de preferência), crie um banco de dados chamado grid_academia e execute as seguintes queries para criar as tabelas:
+
+CREATE TABLE usuarios (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(100),
+  email VARCHAR(100) UNIQUE,
+  senha TEXT
+);
+
+CREATE TABLE treinos (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(100),
+  usuario_id INTEGER REFERENCES usuarios(id)
+);
+
+CREATE TABLE exercicios (
+  id SERIAL PRIMARY KEY,
+  treino_id INTEGER REFERENCES treinos(id),
+  nome VARCHAR(100),
+  grupo VARCHAR(100),
+  series INTEGER,
+  reps INTEGER,
+  carga NUMERIC
+);
+
+
+```
+### 3. Configuração do Backend
+```
+Entre na pasta correspondente, instale as dependências e configure o ambiente:
+
+cd backend
+npm install
+npm install nodemon --save-dev
+```
+
+Crie um arquivo .env na raiz da pasta backend/ com as seguintes variáveis:
+
+```
+PORT=3001
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=sua_senha
+DB_NAME=grid_academia
+JWT_SECRET=grid_secret
+```
+
+Para iniciar o servidor de desenvolvimento:
+npm run dev
+
+> Servidor rodando em: http://localhost:3001
+
+
+### 4. Configuração do Frontend
+Abra um novo terminal, navegue até a pasta do frontend e inicie a aplicação:
+
+cd frontend
+npm install
+npm run dev
+
+> Frontend rodando em: http://localhost:5173
+
+
+
+
+## 🔐 Funcionalidades Atuais
+
+* **Usuário:** Cadastro, Login e Logout (com privacidade e segurança via JWT).
+* **Treinos:** Criação e listagem de treinos personalizados por usuário.
+* **Exercícios:** Vínculo de exercícios aos treinos, com controle de séries, repetições e peso.
+
+
+
+
+## 📡 Rotas da API
+
+### Autenticação (/auth)
+
+* POST /auth/cadastro - Registra um novo usuário
+* POST /auth/login - Autentica o usuário e retorna o token JWT
+```
+Exemplo de Body (Cadastro):
 {
-  "nome": "Nome Completo",
-  "email": "email@exemplo.com",
-  "senha": "senha123",
-  "telefone": "(48) 99999-9999"
+  "nome": "Guilherme",
+  "email": "gui@email.com",
+  "senha": "123456"
+}
+```
+### Treinos (/treinos)
+
+* GET /treinos - Lista todos os treinos do usuário autenticado
+* POST /treinos - Cria um novo treino
+```
+Exemplo de Body (Criar Treino):
+{
+  "nome": "Treino A"
+}
+```
+### Exercícios (/exercicios)
+
+* GET /exercicios/:treinoId - Lista os exercícios vinculados a um treino específico
+* POST /exercicios - Adiciona um novo exercício ao treino
+```
+Exemplo de Body (Criar Exercício):
+{
+  "treino_id": 1,
+  "nome": "Supino",
+  "grupo": "Peito",
+  "series": 3,
+  "reps": 12,
+  "carga": 20
 }
 ```
 
-**POST /api/auth/login**
-```json
-{
-  "email": "email@exemplo.com",
-  "senha": "senha123"
-}
-```
 
-**GET /api/auth/perfil** (requer token)
-- Header: `Authorization: Bearer {token}`
+## 📌 Próximas Features
 
-## 🌐 Preparando para Produção
+- [ ] Editar e excluir exercícios/treinos
+- [ ] Dashboard com gráficos de evolução
+- [ ] Histórico de treinos concluídos
+- [ ] Gráfico de progressão de carga
+- [ ] Timer integrado para descanso entre séries
+- [ ] Tela de gerenciamento do perfil do usuário
+- [ ] Dark mode avançado
 
-### Backend (Heroku, Railway, Render)
 
-1. Configure as variáveis de ambiente
-2. Use um banco PostgreSQL em produção
-3. Configure CORS adequadamente
-4. Use HTTPS
-
-### Frontend (Vercel, Netlify)
-
-1. Faça build: `npm run build`
-2. Configure a variável `REACT_APP_API_URL` para apontar para o backend em produção
-3. Configure redirecionamentos para SPA
-
-### Banco de Dados
-
-Opções gratuitas:
-- **ElephantSQL** (PostgreSQL hospedado)
-- **Supabase** (PostgreSQL com recursos extras)
-- **Neon** (PostgreSQL serverless)
-
-## 🧪 Testando a API
-
-### Usando cURL:
-
-```bash
-# Registrar
-curl -X POST http://localhost:5000/api/auth/registrar \
-  -H "Content-Type: application/json" \
-  -d '{"nome":"Teste","email":"teste@email.com","senha":"123456"}'
-
-# Login
-curl -X POST http://localhost:5000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"teste@email.com","senha":"123456"}'
-```
-
-## 📝 Próximos Passos
-
-- [ ] Adicionar recuperação de senha
-- [ ] Implementar perfil de usuário editável
-- [ ] Adicionar validações mais robustas
-- [ ] Implementar refresh tokens
-- [ ] Adicionar testes automatizados
-- [ ] Implementar rate limiting
-- [ ] Adicionar logs estruturados
-
-## 🆘 Problemas Comuns
-
-**Erro de conexão com PostgreSQL:**
-- Verifique se o PostgreSQL está rodando
-- Confirme as credenciais no `.env`
-- Verifique se o banco `app_database` existe
-
-**Erro CORS no frontend:**
-- Verifique se o backend está rodando
-- Confirme a URL da API no `.env` do frontend
-
-**Token inválido:**
-- Verifique se o `JWT_SECRET` é o mesmo no backend
-- O token expira em 7 dias
-
-## 📄 Licença
-
-MIT
 
 ## 👨‍💻 Autor
 
-Guilherme Zamboni Menegacio
+Desenvolvido por Guilherme Zamboni Menegacio.

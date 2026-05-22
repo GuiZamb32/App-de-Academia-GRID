@@ -1,10 +1,10 @@
-# 🏋️ GRID Academy
+#  GRID 
 
 Sistema Full Stack para gerenciamento de treinos de academia. O projeto permite o cadastro de usuários, criação de rotas de treino customizadas e organização de exercícios por grupo muscular com controle de carga.
 
 
 
-## 🚀 Tecnologias
+##  Tecnologias
 
 ### Backend
 * **Node.js** (Ambiente de execução)
@@ -56,8 +56,10 @@ cd App-de-Academia-GRID
 
 ```
 ### 2. Configuração do Banco de Dados (PostgreSQL)
-```
+
 Abra o pgAdmin (ou seu SGBD de preferência), crie um banco de dados chamado grid_academia e execute as seguintes queries para criar as tabelas:
+```
+
 
 CREATE TABLE usuarios (
   id SERIAL PRIMARY KEY,
@@ -173,7 +175,7 @@ Exemplo de Body (Criar Exercício):
 ```
 
 
-## 📌 Próximas Features
+##  Próximas Features
 
 - [ ] Editar e excluir exercícios/treinos
 - [ ] Dashboard com gráficos de evolução
@@ -185,6 +187,6 @@ Exemplo de Body (Criar Exercício):
 
 
 
-## 👨‍💻 Autor
+##  Autor
 
 Desenvolvido por Guilherme Zamboni Menegacio.

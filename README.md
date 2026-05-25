@@ -1,5 +1,10 @@
 #  GRID 
 
+<p align="center">
+  <img width="400" height="400" src="https://github.com/GuiZamb32/App-de-Academia-GRID/blob/main/frontend/public/Logo_GRID.png?raw=true" alt="Logo_GRID">
+</p>
+
+
 Sistema Full Stack para gerenciamento de treinos de academia. O projeto permite o cadastro de usuários, criação de rotas de treino customizadas e organização de exercícios por grupo muscular com controle de carga.
 
 

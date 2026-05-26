@@ -1,78 +1,182 @@
+
+
+/* ==========================================
+   2. ARQUIVO: Home.css
+   ========================================== */
 .home {
   min-height: 100vh;
   background: #0b0b0b;
-  padding: 24px;
+  color: #fff;
+  padding: 22px;
+  font-family: sans-serif;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
 }
 
+.home__container {
+  background: #050505;
+  border-radius: 28px;
+  padding: 28px;
+  border: 1px solid #171717;
+  width: 100%;
+  max-width: 450px;
+  min-height: 85vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* HEADER */
 .home__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  margin-bottom: 40px;
 }
 
 .home__logo {
-  font-size: 14px;
-  color: #999;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
 }
 
-.home__logout {
-  width: 90px;
-  height: 40px;
+.home__logo span {
+  color: #e00000;
+}
+
+.home__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.home__btn-iniciar {
+  background: #ff0000;
+  color: #fff;
   border: none;
-  background: red;
-  color: white;
-  border-radius: 8px;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 10px;
+  font-weight: 900;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: opacity 0.2s;
 }
 
+.home__btn-iniciar:hover {
+  opacity: 0.9;
+}
+
+.home__profile-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #222;
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.home__profile-avatar:hover {
+  transform: scale(1.05);
+}
+
+.home__profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* HERO */
 .home__hero {
-  margin-top: 80px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: -20px;
 }
 
 .home__title {
-  font-size: 64px;
-  line-height: 1;
+  font-size: 62px;
+  line-height: 0.95;
+  font-weight: 900;
+  text-transform: none; /* Mantém "Diario" com a primeira maiúscula */
+  margin: 0 0 40px 0;
+  letter-spacing: -1px;
 }
 
-.home__title span {
-  color: red;
+.home__title--highlight {
+  color: #ff0000;
+  text-transform: uppercase;
 }
 
 .home__text {
-  margin-top: 20px;
-  color: #aaa;
-  max-width: 300px;
+  color: #8c8c8c;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.4;
+  max-width: 340px;
+  margin: 0;
 }
 
+/* BOTÃO FLUTUANTE (FAB) */
+.home__fab {
+  position: absolute;
+  right: 28px;
+  bottom: 140px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #ff0000;
+  color: #fff;
+  font-size: 36px;
+  font-weight: 300;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(255, 0, 0, 0.3);
+  transition: transform 0.2s;
+}
+
+.home__fab:hover {
+  transform: scale(1.05);
+}
+
+/* ESTATÍSTICAS */
 .home__stats {
   display: flex;
-  gap: 16px;
-  margin-top: 50px;
-}
-
-.home__card {
-  flex: 1;
-  background: #161616;
-  border: 1px solid #2a2a2a;
-  border-radius: 12px;
-  padding: 20px;
-}
-
-.home__card h2 {
-  font-size: 32px;
-}
-
-.home__card span {
-  color: #aaa;
-}
-
-.home__button {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   margin-top: auto;
-  height: 50px;
-  border: none;
-  background: red;
-  color: white;
-  border-radius: 10px;
-  font-weight: bold;
+  padding-top: 40px;
+  border-top: 1px solid #121212;
+}
+
+.home__stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.home__stat-number {
+  display: block;
+  font-size: 48px;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.home__stat-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  color: #666666;
+  margin-top: 10px;
+  letter-spacing: 0.5px;
 }

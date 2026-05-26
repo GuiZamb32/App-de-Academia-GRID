@@ -1,61 +1,200 @@
+
+/* ==========================================
+   2. ARQUIVO: CriarTreino.css
+   ========================================== */
 .criar {
   min-height: 100vh;
   background: #0b0b0b;
   color: white;
-  padding: 24px;
+  padding: 22px;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
 }
 
+.criar__container {
+  background: #050505;
+  border-radius: 28px;
+  padding: 28px;
+  border: 1px solid #171717;
+  width: 100%;
+  max-width: 450px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
 .criar__header {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
+  margin-bottom: 24px;
 }
 
 .criar__back {
-  background: none;
+  width: 36px;
+  height: 36px;
   border: none;
+  border-radius: 10px;
+  background: #161616;
   color: white;
-  font-size: 24px;
-}
-
-.criar__title {
-  font-size: 28px;
-}
-
-.criar__content {
-  margin-top: 40px;
-
+  cursor: pointer;
+  font-size: 18px;
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.criar__header h1 {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+/* BANNER "SEUS TREINOS" GIGANTE */
+.criar__banner {
+  background: linear-gradient(135deg, #1f0505 0%, #0d0202 100%);
+  border: 1px solid #4a0a0a;
+  border-radius: 24px;
+  padding: 36px 20px;
+  text-align: center;
+  margin-bottom: 28px;
+  box-shadow: 0 0 25px rgba(255, 0, 0, 0.05);
+}
+
+.criar__banner h2 {
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  word-spacing: 12px;
+  margin: 0;
+}
+
+/* CONTAINER COMPACTO DE CADASTRO */
+.criar__form-inline {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
 .criar__input {
-  height: 48px;
-
-  background: #161616;
-
-  border: 1px solid #2a2a2a;
-  border-radius: 10px;
-
-  padding: 0 14px;
-
+  flex: 1;
+  height: 50px;
+  background: #111111;
+  border: 1px solid #222222;
+  border-radius: 14px;
+  padding: 0 16px;
   color: white;
+  font-size: 15px;
+  outline: none;
+}
+
+.criar__input:focus {
+  border-color: #ff0000;
 }
 
 .criar__button {
-  height: 48px;
-
+  width: 50px;
+  height: 50px;
   border: none;
-  border-radius: 10px;
-
-  background: red;
+  border-radius: 14px;
+  background: #6e0505;
   color: white;
-
+  font-size: 24px;
   font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.criar__button:hover {
+  background: #a80000;
 }
 
 .criar__erro {
-  color: red;
-  font-size: 14px;
+  color: #ff3b30;
+  font-size: 12px;
+  margin: 0 0 16px 4px;
+  font-weight: 600;
+}
+
+/* CARDS DE LISTAGEM DE TREINO */
+.criar__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.criar__card-treino {
+  background: #0d0d0d;
+  border: 1px solid #420808;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  box-shadow: inset 0 0 15px rgba(255, 0, 0, 0.03);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.criar__card-treino:hover {
+  border-color: #a80000;
+  transform: translateY(-1px);
+}
+
+.criar__card-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #222222;
+  padding-right: 18px;
+  min-width: 65px;
+}
+
+.criar__card-label {
+  font-size: 11px;
+  color: #666666;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.criar__card-letra {
+  font-size: 32px;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.criar__card-detalhes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.criar__card-sub {
+  font-size: 9px;
+  font-weight: 800;
+  color: #555555;
+  letter-spacing: 0.5px;
+}
+
+.criar__card-badges {
+  display: flex;
+  gap: 8px;
+}
+
+.criar__badge-musculo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #181c24;
+  border: 1px solid #28303f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
 }

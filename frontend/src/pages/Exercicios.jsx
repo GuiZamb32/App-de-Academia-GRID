@@ -14,17 +14,25 @@ export default function Exercicios({
 }) {
   const [exercicios, setExercicios] = useState([])
 
-  const [nome, setNome] = useState('')
+  const [form, setForm] = useState({
+    nome: '',
+    grupo: '',
+    series: '',
+    reps: '',
+    carga: '',
+  })
 
   useEffect(() => {
-    carregarExercicios()
-  }, [])
+    if (treinoId) {
+      carregarExercicios()
+    }
+  }, [treinoId])
 
   async function carregarExercicios() {
     try {
       const data = await listarExercicios(treinoId)
 
-      setExercicios(data)
+      setExercicios(Array.isArray(data) ? data : [])
 
     } catch (err) {
       console.log(err)
@@ -33,18 +41,39 @@ export default function Exercicios({
 
   async function handleCriar() {
     try {
-      if (!nome) return
+      const {
+        nome,
+        grupo,
+        series,
+        reps,
+        carga,
+      } = form
+
+      if (
+        !nome ||
+        !grupo ||
+        !series ||
+        !reps
+      ) {
+        return alert('Preencha os campos obrigatórios')
+      }
 
       await criarExercicio({
         treino_id: treinoId,
         nome,
-        grupo: 'Peito',
-        series: 3,
-        reps: 12,
-        carga: 0,
+        grupo,
+        series: Number(series),
+        reps: Number(reps),
+        carga: Number(carga || 0),
       })
 
-      setNome('')
+      setForm({
+        nome: '',
+        grupo: '',
+        series: '',
+        reps: '',
+        carga: '',
+      })
 
       carregarExercicios()
 
@@ -77,8 +106,76 @@ export default function Exercicios({
           type="text"
           placeholder="Nome do exercício"
           className="exercicios__input"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
+          value={form.nome}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              nome: e.target.value,
+            })
+          }
+        />
+
+        <select
+          className="exercicios__input"
+          value={form.grupo}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              grupo: e.target.value,
+            })
+          }
+        >
+          <option value="">
+            Grupo muscular
+          </option>
+
+          <option>Peito</option>
+          <option>Costas</option>
+          <option>Ombros</option>
+          <option>Bíceps</option>
+          <option>Tríceps</option>
+          <option>Pernas</option>
+          <option>Panturrilha</option>
+          <option>Abdômen</option>
+        </select>
+
+        <input
+          type="number"
+          placeholder="Séries"
+          className="exercicios__input"
+          value={form.series}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              series: e.target.value,
+            })
+          }
+        />
+
+        <input
+          type="number"
+          placeholder="Repetições"
+          className="exercicios__input"
+          value={form.reps}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              reps: e.target.value,
+            })
+          }
+        />
+
+        <input
+          type="number"
+          placeholder="Carga (kg)"
+          className="exercicios__input"
+          value={form.carga}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              carga: e.target.value,
+            })
+          }
         />
 
         <button
@@ -99,9 +196,19 @@ export default function Exercicios({
           >
             <h2>{exercicio.nome}</h2>
 
-            <p>
-              {exercicio.series}x{exercicio.reps}
-            </p>
+            <div className="exercicio__infos">
+              <span className="exercicio__badge">
+                {exercicio.grupo}
+              </span>
+
+              <span className="exercicio__badge">
+                {exercicio.series}x{exercicio.reps}
+              </span>
+
+              <span className="exercicio__badge">
+                {exercicio.carga}kg
+              </span>
+            </div>
           </div>
         ))}
 

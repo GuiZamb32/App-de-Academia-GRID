@@ -1,85 +1,240 @@
+
+/* ==========================================
+   2. ARQUIVO: Cadastro.css
+   ========================================== */
 .cadastro {
   min-height: 100vh;
+  background: #0b0b0b;
+  color: #fff;
+  padding: 22px;
+  font-family: sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #0b0b0b;
-  padding: 24px;
 }
 
-.cadastro__card {
+.cadastro__container {
+  background: #050505;
+  border-radius: 28px;
+  padding: 28px;
+  border: 1px solid #171717;
   width: 100%;
-  max-width: 340px;
-
+  max-width: 450px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
+/* LOGO */
 .cadastro__logo {
-  font-size: 12px;
-  color: #888;
-  letter-spacing: 2px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 35px;
+}
+
+.cadastro__logo span {
+  color: #e00000;
+}
+
+/* HERO E TÍTULOS */
+.cadastro__hero {
+  margin-bottom: 30px;
 }
 
 .cadastro__title {
-  font-size: 44px;
-  line-height: 1;
-  color: white;
-  margin-bottom: 10px;
+  font-size: 64px;
+  line-height: 0.95;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin: 0 0 16px 0;
 }
 
-.cadastro__title span {
-  color: red;
+.cadastro__title--highlight {
+  color: #ff0000;
+}
+
+.cadastro__subtitle {
+  color: #4a4a4a;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+/* ABAS DE ALTERNÂNCIA (TABS) */
+.cadastro__tabs {
+  background: #141414;
+  border: 1px solid #222222;
+  border-radius: 14px;
+  padding: 4px;
+  display: flex;
+  gap: 4px;
+  margin-bottom: 35px;
+}
+
+.cadastro__tab-btn {
+  flex: 1;
+  height: 44px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: #555555;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.cadastro__tab-btn--active {
+  background: #c20000;
+  color: #ffffff;
+}
+
+/* COMPONENTES DO FORMULÁRIO */
+.cadastro__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cadastro__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cadastro__field label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #666666;
+  letter-spacing: 0.5px;
 }
 
 .cadastro__input {
-  height: 48px;
-  background: #161616;
-  border: 1px solid #2a2a2a;
-  border-radius: 10px;
-
-  padding: 0 14px;
-
-  color: white;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid #222222;
+  background: #141414;
+  padding: 0 16px;
+  color: #ffffff;
+  font-size: 14px;
   outline: none;
+  box-sizing: border-box;
+  text-transform: uppercase;
+}
 
-  transition: 0.2s;
+.cadastro__input::placeholder {
+  color: #3d3d3d;
+  font-weight: 700;
 }
 
 .cadastro__input:focus {
-  border-color: red;
-}
-
-.cadastro__button {
-  height: 48px;
-
-  border: none;
-  border-radius: 10px;
-
-  background: red;
-  color: white;
-
-  font-weight: bold;
-  font-size: 14px;
-
-  transition: 0.2s;
-}
-
-.cadastro__button:hover {
-  opacity: 0.9;
-}
-
-.cadastro__link {
-  background: transparent;
-  border: none;
-
-  color: #999;
-
-  font-size: 14px;
+  border-color: #ff0000;
 }
 
 .cadastro__erro {
-  color: red;
+  color: #ff3b30;
+  font-size: 12px;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* BOTÃO CRIAR CONTA */
+.cadastro__button {
+  width: 100%;
+  height: 56px;
+  border: none;
+  border-radius: 16px;
+  background: #c20000;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+
+.cadastro__button:hover {
+  background: #e00000;
+}
+
+/* DIVISOR "OU" */
+.cadastro__divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 24px 0;
+  color: #444444;
+}
+
+.cadastro__divider::before,
+.cadastro__divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.cadastro__divider:not(:empty)::before {
+  margin-right: .5em;
+}
+
+.cadastro__divider:not(:empty)::after {
+  margin-left: .5em;
+}
+
+.cadastro__divider span {
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* BOTÃO DO GOOGLE */
+.cadastro__google-btn {
+  width: 100%;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid #222222;
+  background: #141414;
+  color: #ffffff;
   font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: background 0.2s;
+  margin-bottom: 24px;
+}
+
+.cadastro__google-btn:hover {
+  background: #1a1a1a;
+  border-color: #333;
+}
+
+.cadastro__google-btn img {
+  width: 18px;
+  height: 18px;
+}
+
+/* RODAPÉ E PRIVACIDADE */
+.cadastro__footer-links {
+  font-size: 9px;
+  font-weight: 700;
+  color: #444444;
+  text-align: center;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.cadastro__footer-links a {
+  color: #666666;
+  text-decoration: underline;
+}
+
+.cadastro__footer-links a:hover {
+  color: #888888;
 }

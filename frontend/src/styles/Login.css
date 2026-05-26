@@ -1,95 +1,239 @@
+
+/* ==========================================
+   2. ARQUIVO: Login.css
+   ========================================== */
 .login {
   min-height: 100vh;
-
+  background: #0b0b0b;
+  color: #fff;
+  padding: 22px;
+  font-family: sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  background: #0b0b0b;
-
-  padding: 24px;
 }
 
-.login__card {
+.login__container {
+  background: #050505;
+  border-radius: 28px;
+  padding: 28px;
+  border: 1px solid #171717;
   width: 100%;
-  max-width: 340px;
-
+  max-width: 450px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-
-  gap: 16px;
 }
 
+/* LOGO */
 .login__logo {
-  font-size: 12px;
-  color: #888;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 35px;
+}
 
-  letter-spacing: 2px;
+.login__logo span {
+  color: #e00000;
+}
+
+/* HERO E TÍTULOS */
+.login__hero {
+  margin-bottom: 30px;
 }
 
 .login__title {
-  font-size: 48px;
-  line-height: 1;
-
-  color: white;
-
-  margin-bottom: 10px;
+  font-size: 64px;
+  line-height: 0.95;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin: 0 0 16px 0;
 }
 
-.login__title span {
-  color: red;
+.login__title--highlight {
+  color: #ff0000;
+}
+
+.login__subtitle {
+  color: #4a4a4a;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+/* ABAS DE ALTERNÂNCIA (TABS) */
+.login__tabs {
+  background: #141414;
+  border: 1px solid #222222;
+  border-radius: 14px;
+  padding: 4px;
+  display: flex;
+  gap: 4px;
+  margin-bottom: 35px;
+}
+
+.login__tab-btn {
+  flex: 1;
+  height: 44px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: #555555;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.login__tab-btn--active {
+  background: #c20000;
+  color: #ffffff;
+}
+
+/* COMPONENTES DO FORMULÁRIO */
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.login__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.login__field label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #666666;
+  letter-spacing: 0.5px;
 }
 
 .login__input {
-  height: 48px;
-
-  background: #161616;
-
-  border: 1px solid #2a2a2a;
-  border-radius: 10px;
-
-  padding: 0 14px;
-
-  color: white;
-
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid #222222;
+  background: #141414;
+  padding: 0 16px;
+  color: #ffffff;
+  font-size: 14px;
   outline: none;
+  box-sizing: border-box;
+  text-transform: uppercase;
+}
 
-  transition: 0.2s;
+.login__input::placeholder {
+  color: #3d3d3d;
+  font-weight: 700;
 }
 
 .login__input:focus {
-  border-color: red;
+  border-color: #ff0000;
 }
 
-.login__button {
-  height: 48px;
+/* ESQUECEU A SENHA */
+.login__forgot-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -4px;
+}
 
+.login__forgot-link {
+  background: none;
   border: none;
-  border-radius: 10px;
-
-  background: red;
-  color: white;
-
-  font-weight: bold;
-  font-size: 14px;
-
-  transition: 0.2s;
+  color: #555555;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
-.login__button:hover {
-  opacity: 0.9;
-}
-
-.login__link {
-  background: transparent;
-  border: none;
-
-  color: #999;
-
-  font-size: 14px;
+.login__forgot-link:hover {
+  color: #888;
 }
 
 .login__erro {
-  color: red;
+  color: #ff3b30;
+  font-size: 12px;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* BOTÃO ENTRAR PRINCIPAL */
+.login__button {
+  width: 100%;
+  height: 56px;
+  border: none;
+  border-radius: 16px;
+  background: #c20000;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+
+.login__button:hover {
+  background: #e00000;
+}
+
+/* DIVISOR "OU" */
+.login__divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 24px 0;
+  color: #444444;
+}
+
+.login__divider::before,
+.login__divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.login__divider:not(:empty)::before {
+  margin-right: .5em;
+}
+
+.login__divider:not(:empty)::after {
+  margin-left: .5em;
+}
+
+.login__divider span {
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* BOTÃO DO GOOGLE */
+.login__google-btn {
+  width: 100%;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid #222222;
+  background: #141414;
+  color: #ffffff;
   font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: background 0.2s;
+}
+
+.login__google-btn:hover {
+  background: #1a1a1a;
+  border-color: #333;
+}
+
+.login__google-btn img {
+  width: 18px;
+  height: 18px;
 }

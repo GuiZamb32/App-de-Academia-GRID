@@ -1,146 +1,267 @@
+
+/* ==========================================
+   2. ARQUIVO: Exercicios.css
+   ========================================== */
 .exercicios {
   min-height: 100vh;
-  background: #111827;
+  background: #0b0b0b;
   color: #fff;
-  padding: 24px;
+  padding: 22px;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+.exercicios__container {
+  background: #050505;
+  border-radius: 28px;
+  padding: 28px;
+  border: 1px solid #171717;
+  width: 100%;
+  max-width: 450px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 /* HEADER */
-
 .exercicios__header {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 32px;
+  gap: 14px;
+  margin-bottom: 24px;
 }
 
 .exercicios__back {
+  width: 36px;
+  height: 36px;
   border: none;
-  background: #1f2937;
+  border-radius: 10px;
+  background: #161616;
   color: white;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
   cursor: pointer;
-  font-size: 1.2rem;
-  transition: 0.2s;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.exercicios__back:hover {
-  transform: scale(1.05);
-  background: #374151;
+.exercicios__header h1 {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin: 0;
 }
 
-.exercicios__title {
-  font-size: 1.8rem;
-  font-weight: 700;
+/* HERO CARD VERMELHO */
+.exercicios__hero-card {
+  background: linear-gradient(135deg, #300000 0%, #150000 100%);
+  border: 2px solid #a80000;
+  border-radius: 24px;
+  padding: 32px 24px;
+  text-align: center;
+  margin-bottom: 28px;
+  box-shadow: 0 0 25px rgba(255, 0, 0, 0.15);
 }
 
-/* FORM */
+.exercicios__hero-card h2 {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin: 0 0 8px 0;
+}
 
-.exercicios__create {
+.exercicios__hero-card p {
+  color: #665555;
+  font-size: 12px;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* ELEMENTOS DE FORMULÁRIO */
+.exercicios__form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 22px;
+}
 
-  background: #1f2937;
-  padding: 24px;
-  border-radius: 20px;
+.exercicios__field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-  margin-bottom: 28px;
+.exercicios__field label {
+  font-size: 18px;
+  font-weight: 700;
+  color: #555555;
 }
 
 .exercicios__input {
-  width: 100%;
-  border: none;
-  outline: none;
-
-  background: #374151;
-  color: white;
-
-  padding: 14px 16px;
+  height: 56px;
   border-radius: 14px;
-
-  font-size: 1rem;
+  border: 1px solid #3a0000;
+  background: #200505;
+  padding: 0 18px;
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+  box-sizing: border-box;
 }
 
 .exercicios__input::placeholder {
-  color: #9ca3af;
+  color: #553a3a;
+  font-weight: 600;
 }
 
-select.exercicios__input {
-  cursor: pointer;
-}
-
-.exercicios__button {
-  border: none;
-  background: #22c55e;
-  color: white;
-
-  padding: 14px;
-  border-radius: 14px;
-
-  font-size: 1rem;
-  font-weight: 700;
-
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.exercicios__button:hover {
-  transform: translateY(-2px);
-}
-
-/* LISTA */
-
-.exercicios__list {
+/* GRID DE GRUPOS MUSCULARES */
+.exercicios__groups-grid {
   display: grid;
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
 }
 
-/* CARD */
+.exercicios__group-btn {
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid #222222;
+  background: #141414;
+  color: #666666;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.exercicios__group-btn:hover {
+  border-color: #444;
+  color: #aaa;
+}
+
+.exercicios__group-btn--active {
+  background: #ff0000;
+  border-color: #ff0000;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+}
+
+/* ALINHAMENTO DAS MEDIDAS INFERIORES */
+.exercicios__row {
+  display: flex;
+  gap: 12px;
+}
+
+.exercicios__row .exercicios__field {
+  flex: 1;
+}
+
+.exercicios__row label {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  font-weight: 800;
+}
+
+.exercicios__input-small {
+  height: 46px;
+  border-radius: 12px;
+  border: 1px solid #222222;
+  background: #141414;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.exercicios__input-small:focus {
+  border-color: #ff0000;
+}
+
+/* BOTÕES DE AÇÃO INFERIORES */
+.exercicios__actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 15px;
+}
+
+.exercicios__btn-cancelar {
+  flex: 1;
+  height: 54px;
+  border-radius: 14px;
+  border: 1px solid #222222;
+  background: #141414;
+  color: #666666;
+  font-size: 24px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.exercicios__btn-cancelar:hover {
+  background: #1c1c1c;
+  color: #fff;
+}
+
+.exercicios__btn-salvar {
+  flex: 1;
+  height: 54px;
+  border-radius: 14px;
+  border: none;
+  background: #6e0505;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.exercicios__btn-salvar:hover {
+  background: #a80000;
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.2);
+}
+
+/* LISTA INFERIOR DE APOIO */
+.exercicios__list {
+  margin-top: 35px;
+  border-top: 1px solid #141414;
+  padding-top: 25px;
+}
+
+.exercicios__list-title {
+  font-size: 13px;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 15px;
+}
 
 .exercicio__card {
-  background: #1f2937;
-  border-radius: 18px;
-  padding: 18px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-
-  transition: 0.2s;
-}
-
-.exercicio__card:hover {
-  transform: translateY(-2px);
+  background: #0d0d0d;
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid #141414;
+  margin-bottom: 12px;
 }
 
 .exercicio__card h2 {
-  font-size: 1.1rem;
-  margin: 0;
+  font-size: 16px;
+  margin: 0 0 10px 0;
+  font-weight: 700;
 }
 
 .exercicio__infos {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 
 .exercicio__badge {
-  background: #374151;
-  padding: 8px 12px;
-  border-radius: 999px;
-
-  font-size: 0.9rem;
-  color: #d1d5db;
-}
-
-/* RESPONSIVO */
-
-@media (min-width: 768px) {
-  .exercicios {
-    max-width: 700px;
-    margin: auto;
-  }
+  background: #141414;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  color: #888;
+  font-weight: 700;
+  border: 1px solid #1c1c1c;
 }

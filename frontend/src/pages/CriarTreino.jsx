@@ -28,6 +28,7 @@ export default function CriarTreino({
     }
   }
 
+  
   return (
     <div className="criar">
 

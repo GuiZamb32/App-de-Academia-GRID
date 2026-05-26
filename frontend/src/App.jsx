@@ -9,6 +9,7 @@ import CriarTreino from './pages/CriarTreino'
 import Exercicios from './pages/Exercicios'
 
 import Perfil from './pages/Perfil'
+import TreinoAtual from './pages/TreinoAtual'
 
 
 import './styles/App.css'
@@ -115,6 +116,14 @@ function App() {
           usuario={usuario}
           voltar={() => setPagina('home')}
           sair={handleSair}
+        />
+      )}
+
+      {/* TREINO ATUAL */}
+      {pagina === 'treinoAtual' && (
+        <TreinoAtual
+          treinoNome={treinoSelecionado?.nome}
+          voltar={() => setPagina('treinos')}
         />
       )}
 

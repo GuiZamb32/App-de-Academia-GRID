@@ -8,6 +8,8 @@ import Treinos from './pages/Treinos'
 import CriarTreino from './pages/CriarTreino'
 import Exercicios from './pages/Exercicios'
 
+import Perfil from './pages/Perfil'
+
 
 import './styles/App.css'
 
@@ -104,6 +106,15 @@ function App() {
           treinoId={treinoSelecionado?.id}
           treinoNome={treinoSelecionado?.nome}
           voltar={() => setPagina('treinos')}
+        />
+      )}
+
+      {/* PERFIL */}
+      {pagina === 'perfil' && (
+        <Perfil
+          usuario={usuario}
+          voltar={() => setPagina('home')}
+          sair={handleSair}
         />
       )}
 

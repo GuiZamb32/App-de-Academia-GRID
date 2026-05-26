@@ -23,6 +23,12 @@ export default function Home({  usuario, sair, navegar, }) {
           SAIR
         </button>
 
+         <button
+          className="home__logout"
+          onClick={() => navegar('perfil')}>
+            Perfil
+        </button>
+
       </header>
 
       <section className="home__hero">

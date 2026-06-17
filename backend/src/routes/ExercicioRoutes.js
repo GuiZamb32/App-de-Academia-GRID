@@ -17,5 +17,9 @@ router.get(
   authMiddleware,
   exercicioController.listar
 )
+router.delete(
+  '/:id', 
+  authMiddleware, 
+  exercicioController.excluir)
 
 module.exports = router

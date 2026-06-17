@@ -206,3 +206,20 @@ export async function excluirTreino(id) {
 
   return await response.json();
 }
+
+export async function excluirExercicio(id) {
+  const token = localStorage.getItem('token')
+  const response = await fetch(`http://localhost:3001/exercicios/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+
+  if (!response.ok) {
+    const data = await response.json()
+    throw new Error(data.erro || 'Erro ao deletar exercício')
+  }
+
+  return await response.json()
+}

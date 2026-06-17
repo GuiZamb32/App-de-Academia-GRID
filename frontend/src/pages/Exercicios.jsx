@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import '../styles/Exercicios.css'
-import { listarExercicios, criarExercicio } from '../services/api'
+// 💡 Importado o excluirExercicio aqui na linha abaixo:
+import { listarExercicios, criarExercicio, excluirExercicio } from '../services/api'
 
 export default function Exercicios({ treinoId, treinoNome, voltar }) {
   const [exercicios, setExercicios] = useState([])
-  const [mensagemSucesso, setMensagemSucesso] = useState('') // 💡 Estado para controlar o aviso de sucesso na tela
-  const [erro, setErro] = useState('') // 💡 Estado para mostrar erros na tela sem usar alerts
+  const [mensagemSucesso, setMensagemSucesso] = useState('') 
+  const [erro, setErro] = useState('') 
   const [form, setForm] = useState({
     nome: '',
     grupo: '',
@@ -42,22 +43,21 @@ export default function Exercicios({ treinoId, treinoNome, voltar }) {
     try {
       setErro('')
       setMensagemSucesso('')
-      const { nome, grupo, series, reps } = form
+      const { nome, group = form.grupo, series, reps } = form
 
-      if (!nome || !grupo || !series || !reps) {
+      if (!nome || !form.grupo || !series || !reps) {
         return setErro('Preencha todos os campos obrigatórios (*)')
       }
 
       await criarExercicio({
         treino_id: treinoId,
         nome,
-        grupo,
+        grupo: form.grupo,
         series: Number(series),
         reps: Number(reps),
         carga: 0,
       })
 
-      // Limpa os campos do formulário para o próximo exercício
       setForm({
         nome: '',
         grupo: '',
@@ -65,13 +65,9 @@ export default function Exercicios({ treinoId, treinoNome, voltar }) {
         reps: '',
       })
 
-      // Recarrega a lista de baixo
       carregarExercicios()
-      
-      // 💡 Mostra o feedback de sucesso na tela
       setMensagemSucesso(`"${nome.toUpperCase()}" adicionado com sucesso!`)
 
-      // Some com o aviso de sucesso depois de 3 segundos automaticamente
       setTimeout(() => {
         setMensagemSucesso('')
       }, 3000)
@@ -79,6 +75,20 @@ export default function Exercicios({ treinoId, treinoNome, voltar }) {
     } catch (err) {
       console.log(err)
       setErro('Não foi possível salvar o exercício. Tente novamente.')
+    }
+  }
+
+  // 💡 Nova função para lidar com a exclusão do exercício individual
+  async function handleDeletarExercicio(id, nomeEx) {
+    if (window.confirm(`Deseja realmente remover o exercício "${nomeEx.toUpperCase()}"?`)) {
+      try {
+        await excluirExercicio(id)
+        carregarExercicios() // Recarrega a listagem na hora
+        setMensagemSucesso('Exercício removido com sucesso!')
+        setTimeout(() => setMensagemSucesso(''), 3000)
+      } catch (err) {
+        setErro(err.message || 'Erro ao remover exercício')
+      }
     }
   }
 
@@ -172,7 +182,6 @@ export default function Exercicios({ treinoId, treinoNome, voltar }) {
 
           {/* AÇÕES FIXAS DO FORMULÁRIO */}
           <div className="exercicios__actions">
-            {/* 💡 CORRIGIDO: Clicar em cancelar agora executa a função 'voltar' herdada do App.jsx */}
             <button className="exercicios__btn-cancelar" onClick={voltar}>
               Cancelar
             </button>
@@ -182,14 +191,12 @@ export default function Exercicios({ treinoId, treinoNome, voltar }) {
           </div>
         </div>
 
-       {/* LISTAGEM DOS EXERCÍCIOS ADICIONADOS LOGO ABAIXO */}
+        {/* LISTAGEM DOS EXERCÍCIOS ADICIONADOS LOGO ABAIXO */}
         {exercicios.length > 0 && (
           <section className="exercicios__list">
             <h3 className="exercicios__list-title">Exercícios Cadastrados ({treinoNome})</h3>
             {exercicios.map((ex) => {
               
-              // ✅ MAPEAMENTO CORRIGIDO: O banco devolve nomes como 'Peito', 'Bíceps', etc.
-              // Ajustamos as chaves para bater exatamente com a grafia da sua lista de botões!
               const mapaImagens = {
                 'Peito': '/grupos_musculares/peitoral.png',
                 'Bíceps': '/grupos_musculares/biceps.png',
@@ -202,31 +209,43 @@ export default function Exercicios({ treinoId, treinoNome, voltar }) {
                 'Panturrilha': '/grupos_musculares/panturrilha_gastrocnemio.png'
               }
 
-              // ✅ IMPORTANTE: O banco retorna 'grupo_muscular'. Buscamos a imagem correspondente.
               const urlImagem = mapaImagens[ex.grupo_muscular] || '/grupos_musculares/braco_antibraco_superior.png'
 
               return (
-                <div key={ex.id} className="exercicio__card" style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '10px' }}>
+                <div key={ex.id} className="exercicio__card" style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '10px', position: 'relative' }}>
                   
-                  {/* ✅ FOTO DO MÚSCULO: Agora usando a coluna correta 'grupo_muscular' */}
                   <img 
                     src={urlImagem} 
                     alt={ex.grupo_muscular || "Músculo"} 
                     style={{ width: '40px', height: '40px', objectFit: 'contain', background: '#141414', borderRadius: '50%', padding: '4px', border: '1px solid #222' }}
                   />
                   
-                  <div style={{ flex: 1 }}>
+                  <div style={{ flex: 1, paddingRight: '30px' }}>
                     <h2>{ex.nome.toUpperCase()}</h2>
                     <div className="exercicio__infos">
-                      {/* ✅ CORRIGIDO: No banco a coluna chama-se 'grupo_muscular' */}
                       <span className="exercicio__badge">{ex.grupo_muscular?.toUpperCase()}</span>
-                      
-                      {/* ✅ CORRIGIDO: No banco a coluna chama-se 'repeticoes' (não reps) */}
                       <span className="exercicio__badge">{ex.series}X{ex.repeticoes} REPS</span>
-                      
-                      {/* 🛑 RETIRADO: A tag com ex.carga foi removida daqui como você pediu! */}
                     </div>
                   </div>
+
+                  {/* 🗑️ BOTÃO DE EXCLUIR EXERCÍCIO INDIVIDUAL */}
+                  <button
+                    onClick={() => handleDeletarExercicio(ex.id, ex.nome)}
+                    style={{
+                      position: 'absolute',
+                      right: '15px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'transparent',
+                      border: 'none',
+                      color: '#ff3b30',
+                      fontSize: '16px',
+                      cursor: 'pointer',
+                      padding: '5px'
+                    }}
+                  >
+                    🗑️
+                  </button>
                 </div>
               )
             })}

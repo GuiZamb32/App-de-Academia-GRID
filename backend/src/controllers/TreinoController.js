@@ -1,3 +1,5 @@
+// TreinoController.js
+
 const pool = require('../db/pool')
 
 exports.criar = async (req, res) => {

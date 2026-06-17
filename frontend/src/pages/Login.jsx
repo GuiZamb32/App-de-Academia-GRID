@@ -65,7 +65,7 @@ export default function Login({ irCadastro, entrar }) {
               placeholder="SEU@EMAIL.COM"
               className="login__input"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value.trim().toLowerCase())}
             />
           </div>
 

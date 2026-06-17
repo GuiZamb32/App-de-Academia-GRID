@@ -122,7 +122,6 @@
   font-size: 14px;
   outline: none;
   box-sizing: border-box;
-  text-transform: uppercase;
 }
 
 .cadastro__input::placeholder {

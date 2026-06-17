@@ -1,4 +1,6 @@
-const pool = require('../db/Pool')
+// UsuarioController.js
+
+const pool = require('../db/pool')
 
 exports.buscarPerfil = async (
   req,
@@ -11,13 +13,12 @@ exports.buscarPerfil = async (
     const resultado =
       await pool.query(
         `
-        SELECT
-          id,
-          nome,
-          email,
-          foto
-        FROM usuarios
-        WHERE id = $1
+        SELECT id,
+         nome, 
+         email, 
+         foto_perfil 
+         FROM usuarios WHERE 
+         id = $1
         `,
         [usuarioId]
       )
@@ -51,11 +52,10 @@ async (req, res) => {
     const resultado =
       await pool.query(
         `
-        UPDATE usuarios
-        SET
-          nome = $1,
-          email = $2,
-          foto = $3
+        UPDATE usuarios SET 
+        nome = $1, 
+        email = $2, 
+        foto_perfil = $3 
         WHERE id = $4
         RETURNING
           id,

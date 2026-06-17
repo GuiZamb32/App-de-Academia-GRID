@@ -78,7 +78,7 @@ export default function Cadastro({ voltar, criarConta }) {
               placeholder="SEU@EMAIL.COM"
               className="cadastro__input"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value.trim().toLowerCase())}
             />
           </div>
 

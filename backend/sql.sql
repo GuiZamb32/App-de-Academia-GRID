@@ -1,5 +1,5 @@
 -- ==========================================
--- TABELA DE USUÁRIOS
+-- TABELA DE USUÁRIOS (Perfeita)
 -- ==========================================
 CREATE TABLE IF NOT EXISTS usuarios (
     id SERIAL PRIMARY KEY,
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
 );
 
 -- ==========================================
--- TABELA DE TREINOS
+-- TABELA DE TREINOS (Perfeita)
 -- ==========================================
 CREATE TABLE IF NOT EXISTS treinos (
     id SERIAL PRIMARY KEY,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS treinos (
 );
 
 -- ==========================================
--- TABELA DE EXERCÍCIOS
+-- TABELA DE EXERCÍCIOS (Perfeita)
 -- ==========================================
 CREATE TABLE IF NOT EXISTS exercicios (
     id SERIAL PRIMARY KEY,
@@ -45,13 +45,13 @@ CREATE TABLE IF NOT EXISTS exercicios (
 );
 
 -- ==========================================
--- TABELA DE TREINOS FINALIZADOS
--- histórico do usuário
+-- TABELA DE TREINOS FINALIZADOS (Ajustada)
 -- ==========================================
 CREATE TABLE IF NOT EXISTS historico_treinos (
     id SERIAL PRIMARY KEY,
     usuario_id INT NOT NULL,
-    treino_id INT NOT NULL,
+    treino_id INT, -- Removido o NOT NULL para permitir que o treino original seja deletado sem apagar o histórico
+    nome_treino_Snapshot VARCHAR(100), -- Guarda o nome do treino na época (ex: "Treino A") caso o treino seja deletado
     iniciado_em TIMESTAMP,
     finalizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     tempo_total_segundos INT DEFAULT 0,
@@ -67,22 +67,21 @@ CREATE TABLE IF NOT EXISTS historico_treinos (
     CONSTRAINT fk_treino_historico
         FOREIGN KEY (treino_id)
         REFERENCES treinos(id)
-        ON DELETE CASCADE
+        ON DELETE SET NULL -- Se o treino sumir, o histórico fica salvo!
 );
 
 -- ==========================================
--- TABELA DE SÉRIES CONCLUÍDAS
--- salva progresso do treino atual
+-- TABELA DE SÉRIES CONCLUÍDAS (Ajustada)
 -- ==========================================
 CREATE TABLE IF NOT EXISTS series_realizadas (
     id SERIAL PRIMARY KEY,
     historico_id INT NOT NULL,
-    exercicio_id INT NOT NULL,
+    exercicio_id INT, -- Removido o NOT NULL
+    nome_exercicio_Snapshot VARCHAR(100), -- Guarda o nome do exercício para o histórico não quebrar
     numero_serie INT NOT NULL,
     reps_feitas INT,
     carga_usada NUMERIC(10,2),
-    concluida BOOLEAN DEFAULT FALSE,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    conclui_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_historico_serie
         FOREIGN KEY (historico_id)
@@ -92,5 +91,5 @@ CREATE TABLE IF NOT EXISTS series_realizadas (
     CONSTRAINT fk_exercicio_serie
         FOREIGN KEY (exercicio_id)
         REFERENCES exercicios(id)
-        ON DELETE CASCADE
+        ON DELETE SET NULL -- Se o exercício mudar ou sumir do treino atual, o peso antigo erguido continua salvo aqui!
 );

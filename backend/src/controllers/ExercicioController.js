@@ -1,3 +1,5 @@
+// ExercicioController.js
+
 const pool = require('../db/pool')
 
 exports.criar = async (req, res) => {
@@ -17,29 +19,20 @@ exports.criar = async (req, res) => {
       })
     }
 
-    const result = await pool.query(
-      `
-      INSERT INTO exercicios
-      (
-        treino_id,
-        nome,
-        grupo,
-        series,
-        reps,
-        carga
-      )
-      VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING *
-      `,
-      [
-        treino_id,
-        nome,
-        grupo,
-        series,
-        reps,
-        carga,
-      ]
-    )
+   
+const result = await pool.query(
+  `
+  INSERT INTO exercicios (treino_id, nome, grupo_muscular, series, repeticoes, carga)
+  VALUES ($1, $2, $3, $4, $5, $6)
+  RETURNING *
+  `,
+  [treino_id, 
+   nome, 
+   grupo_muscular, 
+   series, 
+   repeticoes,
+   carga]
+)
 
     res.status(201).json(result.rows[0])
 

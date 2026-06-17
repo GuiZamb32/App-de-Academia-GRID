@@ -1,8 +1,10 @@
+// TreinoRoutes.js
+
 const router = require('express').Router()
 
-const treinoController = require('../controllers/treinoController')
-
-const authMiddleware = require('../middlewares/authMiddleware')
+// 💡 Variável em minúsculo chamando o arquivo real que começa com Maiúscula
+const treinoController = require('../controllers/TreinoController')
+const authMiddleware = require('../middlewares/AuthMiddleware')
 
 router.post(
   '/',

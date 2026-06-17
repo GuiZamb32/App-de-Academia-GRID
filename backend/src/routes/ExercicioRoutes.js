@@ -1,8 +1,10 @@
+// ExercicioRoutes.js
+
 const router = require('express').Router()
 
-const exercicioController = require('../controllers/exercicioController')
-
-const authMiddleware = require('../middlewares/authMiddleware')
+// 💡 Deixando a variável com "e" minúsculo para bater com o uso nas rotas abaixo
+const exercicioController = require('../controllers/ExercicioController')
+const authMiddleware = require('../middlewares/AuthMiddleware')
 
 router.post(
   '/',

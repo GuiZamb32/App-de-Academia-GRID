@@ -189,3 +189,20 @@ export async function buscarEstatisticasUsuario() {
 
   return await response.json()
 }
+
+export async function excluirTreino(id) {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`http://localhost:3001/treinos/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+
+  if (!response.ok) {
+    const data = await response.json();
+    throw new Error(data.erro || 'Erro ao deletar treino');
+  }
+
+  return await response.json();
+}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import '../styles/CriarTreino.css'
-import { criarTreino, listarTreinos } from '../services/api'
+import { criarTreino, listarTreinos, excluirTreino } from '../services/api'
 
 export default function CriarTreino({ voltar, selecionarTreino }) {
   const [nome, setNome] = useState('')
@@ -14,11 +14,10 @@ export default function CriarTreino({ voltar, selecionarTreino }) {
   async function carregarTreinos() {
     try {
       const data = await listarTreinos()
-      // ✅ CORRIGIDO: Removemos os mocks estáticos de Fallback. Se não houver dados, fica vazio.
       setTreinos(Array.isArray(data) ? data : [])
     } catch (err) {
       console.log('Erro ao carregar treinos:', err)
-      setTreinos([]) // Sem dados mockados poluindo a tela
+      setTreinos([]) 
     }
   }
 
@@ -37,18 +36,15 @@ export default function CriarTreino({ voltar, selecionarTreino }) {
     }
   }
 
-  // Extrai a última letra ou palavra curta para a identificação do card (Ex: "Treino A" -> "A")
   function obterLetraTreino(nomeTreino) {
     const partes = nomeTreino.toUpperCase().trim().split(' ')
     return partes[partes.length - 1] || '?'
   }
 
-  // ✅ NOVO: Varre o nome do treino e retorna o caminho das imagens corretas da pasta public
   function obterImagensMusculos(nomeTreino) {
     const nomeMinusculo = nomeTreino.toLowerCase()
     const caminhosImagens = []
 
-    // Dicionário mapeando termos comuns aos seus arquivos físicos reais na pasta public
     const mapaMusculos = {
       biceps: '/grupos_musculares/biceps.png',
       triceps: '/grupos_musculares/triceps.png',
@@ -65,14 +61,12 @@ export default function CriarTreino({ voltar, selecionarTreino }) {
       abdominal: '/grupos_musculares/abdomen_reto.png',
     }
 
-    // Procura por correspondências no nome do treino
     Object.keys(mapaMusculos).forEach((chave) => {
       if (nomeMinusculo.includes(chave)) {
         caminhosImagens.push(mapaMusculos[chave])
       }
     })
 
-    // Ícone padrão/fallback caso ele crie um nome genérico como "Treino 1"
     if (caminhosImagens.length === 0) {
       caminhosImagens.push('/grupos_musculares/braco_antibraco_superior.png')
     }
@@ -112,20 +106,34 @@ export default function CriarTreino({ voltar, selecionarTreino }) {
         </div>
         {erro && <p className="criar__erro">{erro}</p>}
 
-        {/* LISTAGEM DE TREINOS TOTALMENTE DINÂMICA */}
+        {/* LISTAGEM DE TREINOS TOTALMENTE DINÂMICA COM OPÇÃO DE EXCLUIR */}
         <div className="criar__list">
           {treinos.length === 0 ? (
             <p className="criar__vazio">Nenhum treino salvo. Adicione um treino acima!</p>
           ) : (
             treinos.map((treino) => {
               const letra = obterLetraTreino(treino.nome)
-              const imagens = obterImagensMusculos(treino.nome) // ✅ Busca as fotos reais
+              const imagens = obterImagensMusculos(treino.nome)
+
+              async function handleExcluir(e, id) {
+                e.stopPropagation() 
+                
+                if (window.confirm('Tem certeza que deseja excluir este treino e todos os seus exercícios?')) {
+                  try {
+                    await excluirTreino(id)
+                    carregarTreinos() 
+                  } catch (err) {
+                    alert(err.message || 'Erro ao deletar treino')
+                  }
+                }
+              }
 
               return (
                 <div 
                   key={treino.id} 
                   className="criar__card-treino"
                   onClick={() => selecionarTreino && selecionarTreino(treino)}
+                  style={{ position: 'relative' }} 
                 >
                   <div className="criar__card-meta">
                     <span className="criar__card-label">TREINO</span>
@@ -146,6 +154,25 @@ export default function CriarTreino({ voltar, selecionarTreino }) {
                       ))}
                     </div>
                   </div>
+
+                  {/* 🗑️ BOTÃO DE EXCLUIR */}
+                  <button 
+                    className="criar__btn-deletar"
+                    onClick={(e) => handleExcluir(e, treino.id)}
+                    style={{
+                      position: 'absolute',
+                      top: '15px',
+                      right: '15px',
+                      background: 'transparent',
+                      border: 'none',
+                      color: '#ff3b30',
+                      fontSize: '18px',
+                      cursor: 'pointer',
+                      padding: '5px'
+                    }}
+                  >
+                    🗑️
+                  </button>
                 </div>
               )
             })

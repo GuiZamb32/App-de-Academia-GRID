@@ -58,3 +58,24 @@ exports.listar = async (req, res) => {
     })
   }
 }
+
+exports.excluir = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // 1. Primeiro deletamos os exercícios vinculados a esse treino para evitar erros de chave estrangeira
+    await pool.query('DELETE FROM exercicios WHERE treino_id = $1', [id]);
+
+    // 2. Agora deletamos o treino em si
+    const result = await pool.query('DELETE FROM treinos WHERE id = $1 RETURNING *', [id]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ erro: 'Treino não encontrado.' });
+    }
+
+    res.json({ mensagem: 'Treino e seus exercícios foram excluídos com sucesso!' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ erro: 'Erro interno ao excluir o treino.' });
+  }
+};

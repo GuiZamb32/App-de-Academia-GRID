@@ -18,4 +18,10 @@ router.get(
   treinoController.listar
 )
 
+router.delete(
+  '/:id', 
+  authMiddleware, 
+  treinoController.excluir
+);
+
 module.exports = router

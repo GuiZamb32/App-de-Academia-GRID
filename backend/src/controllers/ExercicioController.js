@@ -7,32 +7,34 @@ exports.criar = async (req, res) => {
     const {
       treino_id,
       nome,
-      grupo,
+      grupo,  
       series,
-      reps,
+      reps,   
       carga,
     } = req.body
 
-    if (!treino_id || !nome) {
+    // Validação estendida para garantir que nenhum dado importante chegue vazio
+    if (!treino_id || !nome || !grupo || !series || !reps) {
       return res.status(400).json({
-        erro: 'Dados obrigatórios',
+        erro: 'Dados obrigatórios ausentes',
       })
     }
 
-   
-const result = await pool.query(
-  `
-  INSERT INTO exercicios (treino_id, nome, grupo_muscular, series, repeticoes, carga)
-  VALUES ($1, $2, $3, $4, $5, $6)
-  RETURNING *
-  `,
-  [treino_id, 
-   nome, 
-   grupo_muscular, 
-   series, 
-   repeticoes,
-   carga]
-)
+    const result = await pool.query(
+      `
+      INSERT INTO exercicios (treino_id, nome, grupo_muscular, series, repeticoes, carga)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *
+      `,
+      [
+        treino_id, 
+        nome, 
+        grupo,   
+        series, 
+        reps,    
+        carga
+      ]
+    )
 
     res.status(201).json(result.rows[0])
 

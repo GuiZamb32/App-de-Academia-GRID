@@ -10,7 +10,7 @@ const treinoRoutes = require('./routes/TreinoRoutes')
 const exercicioRoutes = require('./routes/ExercicioRoutes')
 const usuarioRoutes = require('./routes/UsuarioRoutes')
 
-const app = express() // 👈 Declarado apenas uma única vez aqui!
+const app = express() 
 
 app.use(cors())
 app.use(express.json())

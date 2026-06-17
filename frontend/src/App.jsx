@@ -94,12 +94,16 @@ function App() {
         />
       )}
 
-      {/* CRIAR TREINO */}
-      {pagina === 'criarTreino' && (
-        <CriarTreino
-          voltar={() => setPagina('treinos')}
-        />
-      )}
+    {/* CRIAR TREINO */}
+    {pagina === 'criarTreino' && (
+      <CriarTreino
+        voltar={() => setPagina('treinos')}
+        selecionarTreino={(treino) => {
+          setTreinoSelecionado(treino) // Guarda o treino que foi clicado
+          setPagina('exercicios')      // Redireciona para a tela de exercícios
+        }}
+      />
+    )}
 
       {/* EXERCICIOS */}
      {pagina === 'exercicios' && (

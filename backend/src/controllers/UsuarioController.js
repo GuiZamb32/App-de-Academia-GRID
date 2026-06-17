@@ -84,3 +84,39 @@ async (req, res) => {
     })
   }
 }
+
+exports.buscarEstatisticas = async (req, res) => {
+  try {
+    const usuarioId = req.usuarioId
+
+    // 1. Conta a quantidade total de treinos criados pelo usuário
+    const treinosRes = await pool.query(
+      'SELECT COUNT(*) FROM treinos WHERE usuario_id = $1',
+      [usuarioId]
+    )
+
+    // 2. Conta quantos grupos musculares distintos e o total de séries nos exercícios de todos os treinos dele
+    const exerciciosRes = await pool.query(
+      `
+      SELECT 
+        COUNT(DISTINCT grupo_muscular) as total_grupos,
+        SUM(COALESCE(series, 0)) as total_series
+      FROM exercicios
+      WHERE treino_id IN (SELECT id FROM treinos WHERE usuario_id = $1)
+      `,
+      [usuarioId]
+    )
+
+    res.json({
+      totalTreinos: parseInt(treinosRes.rows[0].count) || 0,
+      totalGrupos: parseInt(exerciciosRes.rows[0].total_grupos) || 0,
+      totalSeries: parseInt(exerciciosRes.rows[0].total_series) || 0
+    })
+
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      erro: 'Erro ao buscar estatísticas do painel',
+    })
+  }
+}

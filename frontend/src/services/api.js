@@ -171,3 +171,21 @@ export async function atualizarPerfil(
 
   return data
 }
+
+export async function buscarEstatisticasUsuario() {
+  const token = localStorage.getItem('token')
+  
+  const response = await fetch('http://localhost:3001/usuario/estatisticas', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  })
+
+  if (!response.ok) {
+    throw new Error('Falha ao carregar os dados do painel.')
+  }
+
+  return await response.json()
+}

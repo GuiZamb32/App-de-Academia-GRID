@@ -1,9 +1,29 @@
-// ==========================================
-// 1. ARQUIVO: Home.jsx
-// ==========================================
+import { useState, useEffect } from 'react'
 import '../styles/Home.css'
+import { buscarEstatisticasUsuario } from '../services/api'
 
 export default function Home({ usuario, sair, navegar }) {
+  // Estado para guardar os números do painel
+  const [stats, setStats] = useState({
+    totalTreinos: 0,
+    totalGrupos: 0,
+    totalSeries: 0
+  })
+
+  // Carrega as estatísticas reais do banco assim que o componente monta na tela
+  useEffect(() => {
+    async function carregarPainel() {
+      try {
+        const dados = await buscarEstatisticasUsuario()
+        setStats(dados)
+      } catch (err) {
+        console.error('Não foi possível atualizar as estatísticas:', err)
+      }
+    }
+    
+    carregarPainel()
+  }, [])
+
   return (
     <div className="home">
       <div className="home__container">
@@ -22,14 +42,13 @@ export default function Home({ usuario, sair, navegar }) {
               ▶ INICIAR
             </button>
             
-            {/* Foto de perfil funcionando como botão */}
             <button 
               className="home__profile-avatar" 
               onClick={() => navegar('perfil')}
               title="Ir para o Perfil"
             >
               <img 
-                src={usuario?.foto || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=150'} 
+                src={usuario?.foto_perfil || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=150'} 
                 alt="Perfil" 
               />
             </button>
@@ -58,20 +77,20 @@ export default function Home({ usuario, sair, navegar }) {
           +
         </button>
 
-        {/* ESTATÍSTICAS INFERIORES */}
+        {/* ESTATÍSTICAS INFERIORES DINÂMICAS */}
         <section className="home__stats">
           <div className="home__stat-item">
-            <strong className="home__stat-number">15</strong>
-            <span className="home__stat-label">EXERCÍCIOS</span>
+            <strong className="home__stat-number">{stats.totalTreinos}</strong>
+            <span className="home__stat-label">TREINOS</span>
           </div>
 
           <div className="home__stat-item">
-            <strong className="home__stat-number">8</strong>
+            <strong className="home__stat-number">{stats.totalGrupos}</strong>
             <span className="home__stat-label">GRUPOS</span>
           </div>
 
           <div className="home__stat-item">
-            <strong className="home__stat-number">45</strong>
+            <strong className="home__stat-number">{stats.totalSeries}</strong>
             <span className="home__stat-label">SÉRIES</span>
           </div>
         </section>

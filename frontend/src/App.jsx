@@ -80,19 +80,20 @@ function App() {
         />
       )}
 
-      {/* TREINOS */}
-      {pagina === 'treinos' && (
-        <Treinos
-          voltar={() => setPagina('home')}
-          abrirCriarTreino={() => setPagina('criarTreino')}
+    {/* TREINOS (TELA DE SELEÇÃO PARA INICIAR O TREINO ATUAL) */}
+    {pagina === 'treinos' && (
+      <Treinos
+        voltar={() => setPagina('home')}
+        // 🛑 Removemos o botão/propriedade de criar treino daqui se houver no componente
+        abrirCriarTreino={null} 
 
-          abrirExercicios={(treino) => {
-            setTreinoSelecionado(treino)
-
-            setPagina('exercicios')
-          }}
-        />
-      )}
+        // 💡 CORRIGIDO: Quando clicar no treino para iniciar, salva o treino selecionado e vai para a EXECUÇÃO (Treino Atual)
+        abrirExercicios={(treino) => {
+          setTreinoSelecionado(treino)
+          setPagina('treinoAtual') // 🔥 Mudado de 'exercicios' para 'treinoAtual'
+        }}
+      />
+    )}
 
     {/* CRIAR TREINO */}
     {pagina === 'criarTreino' && (
@@ -123,11 +124,12 @@ function App() {
         />
       )}
 
-      {/* TREINO ATUAL */}
+      {/* Mude no seu App.jsx para ficar assim: */}
       {pagina === 'treinoAtual' && (
         <TreinoAtual
-          treinoNome={treinoSelecionado?.nome}
-          voltar={() => setPagina('treinos')}
+          treinoId={treinoSelecionado?.id}     // 🔥 PASSANDO O ID REAL
+          treinoNome={treinoSelecionado?.nome} // 🔥 PASSANDO O NOME REAL
+          voltar={() => setPagina('home')}
         />
       )}
 

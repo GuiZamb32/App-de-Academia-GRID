@@ -3,14 +3,12 @@ import '../styles/Home.css'
 import { buscarEstatisticasUsuario } from '../services/api'
 
 export default function Home({ usuario, sair, navegar }) {
-  // Estado para guardar os números do painel
   const [stats, setStats] = useState({
     totalTreinos: 0,
     totalGrupos: 0,
     totalSeries: 0
   })
 
-  // Carrega as estatísticas reais do banco assim que o componente monta na tela
   useEffect(() => {
     async function carregarPainel() {
       try {
@@ -35,6 +33,7 @@ export default function Home({ usuario, sair, navegar }) {
           </div>
           
           <div className="home__actions">
+            {/* 💡 CLIQUE EM INICIAR: Vai para a tela de escolher qual treino executar */}
             <button 
               className="home__btn-iniciar" 
               onClick={() => navegar('treinos')}
@@ -68,16 +67,16 @@ export default function Home({ usuario, sair, navegar }) {
           </p>
         </section>
 
-        {/* BOTÃO FLUTUANTE DE ADICIONAR */}
+        {/* 💡 BOTÃO FLUTUANTE DE ADICIONAR: Agora vai direto para a tela de Gerenciar/Criar Treinos */}
         <button 
           className="home__fab" 
-          onClick={() => navegar('treinos')}
+          onClick={() => navegar('criarTreino')}
           title="Adicionar Novo Treino"
         >
           +
         </button>
 
-        {/* ESTATÍSTICAS INFERIORES DINÂMICAS */}
+        {/* ESTATÍSTICAS INFERIORES */}
         <section className="home__stats">
           <div className="home__stat-item">
             <strong className="home__stat-number">{stats.totalTreinos}</strong>

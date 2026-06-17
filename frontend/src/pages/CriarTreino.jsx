@@ -1,6 +1,3 @@
-// ==========================================
-// 1. ARQUIVO: CriarTreino.jsx
-// ==========================================
 import { useState, useEffect } from 'react'
 import '../styles/CriarTreino.css'
 import { criarTreino, listarTreinos } from '../services/api'
@@ -10,12 +7,6 @@ export default function CriarTreino({ voltar, selecionarTreino }) {
   const [erro, setErro] = useState('')
   const [treinos, setTreinos] = useState([])
 
-  // Mock de ícones/músculos simulando as imagens em destaque da foto para os treinos cadastrados
-  const musculosMock = {
-    A: ['🫁', '💪', '🛡️', '🏋️'],
-    B: ['🦵', '🏃', '🍑', '🧦']
-  }
-
   useEffect(() => {
     carregarTreinos()
   }, [])
@@ -23,11 +14,11 @@ export default function CriarTreino({ voltar, selecionarTreino }) {
   async function carregarTreinos() {
     try {
       const data = await listarTreinos()
+      // ✅ CORRIGIDO: Removemos os mocks estáticos de Fallback. Se não houver dados, fica vazio.
       setTreinos(Array.isArray(data) ? data : [])
     } catch (err) {
       console.log('Erro ao carregar treinos:', err)
-      // Fallback caso a API ainda não possua dados cadastrados para popular o print
-      setTreinos([{ id: 1, nome: 'Treino A' }, { id: 2, nome: 'Treino B' }])
+      setTreinos([]) // Sem dados mockados poluindo a tela
     }
   }
 
@@ -46,10 +37,47 @@ export default function CriarTreino({ voltar, selecionarTreino }) {
     }
   }
 
-  // Extrai a letra do treino (ex: "Treino A" -> "A") para encaixar perfeitamente na estilização
+  // Extrai a última letra ou palavra curta para a identificação do card (Ex: "Treino A" -> "A")
   function obterLetraTreino(nomeTreino) {
-    const partes = nomeTreino.toUpperCase().split(' ')
-    return partes[partes.length - 1] || 'A'
+    const partes = nomeTreino.toUpperCase().trim().split(' ')
+    return partes[partes.length - 1] || '?'
+  }
+
+  // ✅ NOVO: Varre o nome do treino e retorna o caminho das imagens corretas da pasta public
+  function obterImagensMusculos(nomeTreino) {
+    const nomeMinusculo = nomeTreino.toLowerCase()
+    const caminhosImagens = []
+
+    // Dicionário mapeando termos comuns aos seus arquivos físicos reais na pasta public
+    const mapaMusculos = {
+      biceps: '/grupos_musculares/biceps.png',
+      triceps: '/grupos_musculares/triceps.png',
+      peito: '/grupos_musculares/peitoral.png',
+      peitoral: '/grupos_musculares/peitoral.png',
+      costa: '/grupos_musculares/grande_dorsal.png',
+      dorsal: '/grupos_musculares/grande_dorsal.png',
+      perna: '/grupos_musculares/quadriceps.png',
+      quadriceps: '/grupos_musculares/quadriceps.png',
+      ombro: '/grupos_musculares/deltoide_anterior.png',
+      deltoide: '/grupos_musculares/deltoide_anterior.png',
+      gluteo: '/grupos_musculares/gluteos.png',
+      abdome: '/grupos_musculares/abdomen_reto.png',
+      abdominal: '/grupos_musculares/abdomen_reto.png',
+    }
+
+    // Procura por correspondências no nome do treino
+    Object.keys(mapaMusculos).forEach((chave) => {
+      if (nomeMinusculo.includes(chave)) {
+        caminhosImagens.push(mapaMusculos[chave])
+      }
+    })
+
+    // Ícone padrão/fallback caso ele crie um nome genérico como "Treino 1"
+    if (caminhosImagens.length === 0) {
+      caminhosImagens.push('/grupos_musculares/braco_antibraco_superior.png')
+    }
+
+    return caminhosImagens
   }
 
   return (
@@ -69,11 +97,11 @@ export default function CriarTreino({ voltar, selecionarTreino }) {
           <h2>SEUS TREINOS</h2>
         </div>
 
-        {/* COMPONENTE DE INPUT INTEGRADO PARA CRIAR RAPIDAMENTE */}
+        {/* COMPONENTE DE INPUT INTEGRADO */}
         <div className="criar__form-inline">
           <input
             type="text"
-            placeholder="Novo Treino (Ex: Treino C)"
+            placeholder="Novo Treino (Ex: Treino Biceps e Peito)"
             className="criar__input"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
@@ -84,40 +112,47 @@ export default function CriarTreino({ voltar, selecionarTreino }) {
         </div>
         {erro && <p className="criar__erro">{erro}</p>}
 
-        {/* LISTAGEM DE TREINOS - EXATAMENTE IGUAL À IMAGEM */}
+        {/* LISTAGEM DE TREINOS TOTALMENTE DINÂMICA */}
         <div className="criar__list">
-          {treinos.map((treino) => {
-            const letra = obterLetraTreino(treino.nome)
-            const icones = musculosMock[letra] || ['💪', '🏋️']
+          {treinos.length === 0 ? (
+            <p className="criar__vazio">Nenhum treino salvo. Adicione um treino acima!</p>
+          ) : (
+            treinos.map((treino) => {
+              const letra = obterLetraTreino(treino.nome)
+              const imagens = obterImagensMusculos(treino.nome) // ✅ Busca as fotos reais
 
-            return (
-              <div 
-                key={treino.id} 
-                className="criar__card-treino"
-                onClick={() => selecionarTreino && selecionarTreino(treino)}
-              >
-                <div className="criar__card-meta">
-                  <span className="criar__card-label">TREINO</span>
-                  <strong className="criar__card-letra">{letra}</strong>
-                </div>
+              return (
+                <div 
+                  key={treino.id} 
+                  className="criar__card-treino"
+                  onClick={() => selecionarTreino && selecionarTreino(treino)}
+                >
+                  <div className="criar__card-meta">
+                    <span className="criar__card-label">TREINO</span>
+                    <strong className="criar__card-letra">{letra}</strong>
+                  </div>
 
-                <div className="criar__card-detalhes">
-                  <span className="criar__card-sub">MUSCULOS EM DESTAQUE</span>
-                  <div className="criar__card-badges">
-                    {icones.map((icon, idx) => (
-                      <div key={idx} className="criar__badge-musculo">
-                        {icon}
-                      </div>
-                    ))}
+                  <div className="criar__card-detalhes">
+                    <span className="criar__card-sub">{treino.nome.toUpperCase()}</span>
+                    <div className="criar__card-badges">
+                      {imagens.map((url, idx) => (
+                        <div key={idx} className="criar__badge-musculo-img">
+                          <img 
+                            src={url} 
+                            alt="Grupo Muscular" 
+                            style={{ width: '28px', height: '28px', objectFit: 'contain' }} 
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })
+          )}
         </div>
 
       </div>
     </div>
   )
 }
-

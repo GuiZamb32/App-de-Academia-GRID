@@ -187,14 +187,13 @@
   gap: 8px;
 }
 
-.criar__badge-musculo {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: #181c24;
-  border: 1px solid #28303f;
+.criar__badge-musculo-img {
+  width: 38px;
+  height: 38px;
+  background: #141414;
+  border: 1px solid #222;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
 }

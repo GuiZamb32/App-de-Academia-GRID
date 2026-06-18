@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react'
 import '../styles/Perfil.css'
 import { buscarPerfil, atualizarPerfil, buscarEstatisticasUsuario, listarTreinos } from '../services/api'
 
-export default function Perfil({ voltar, sair }) {
+// 💡 Adicionamos 'aoAtualizarPerfil' nas propriedades recebidas do componente pai
+export default function Perfil({ voltar, sair, aoAtualizarPerfil }) {
   const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
   const [foto, setFoto] = useState('')
   const [editando, setEditando] = useState(false)
   
-  // 💡 NOVOS ESTADOS: Estatísticas e treinos reais do banco
   const [stats, setStats] = useState({ totalTreinos: 0, totalGrupos: 0, totalSeries: 0 })
   const [treinos, setTreinos] = useState([])
 
@@ -28,7 +28,6 @@ export default function Perfil({ voltar, sair }) {
     }
   }
 
-  // 💡 NOVA FUNÇÃO: Busca as estatísticas e treinos do usuário em paralelo
   async function carregarDadosAdicionais() {
     try {
       const [dadosStats, dadosTreinos] = await Promise.all([
@@ -50,7 +49,7 @@ export default function Perfil({ voltar, sair }) {
 
     const reader = new FileReader()
     reader.onload = () => {
-      setFoto(reader.result) // Salva em Base64 para enviar ao backend de forma simples
+      setFoto(reader.result) 
     }
     reader.readAsDataURL(file)
   }
@@ -62,16 +61,28 @@ export default function Perfil({ voltar, sair }) {
     }
 
     try {
-      await atualizarPerfil({ nome, email, foto })
+      // Faz o update no banco de dados via API
+      const dadosRetornados = await atualizarPerfil({ nome, email, foto })
+      
       alert('Perfil atualizado com sucesso!')
       setEditando(false)
+
+      // 💡 CORREÇÃO CRÍTICA: Passamos tanto 'foto' quanto 'foto_perfil'
+      // para garantir que a Home encontre o caminho de qualquer jeito!
+      if (typeof aoAtualizarPerfil === 'function') {
+        aoAtualizarPerfil({ 
+          nome, 
+          email, 
+          foto: foto, 
+          foto_perfil: foto 
+        })
+      }
     } catch (err) {
       console.log('Erro ao atualizar perfil:', err)
       alert('Não foi possível salvar as alterações.')
     }
   }
 
-  // Helper para pegar o sufixo/letra identificadora do treino (Ex: "Treino Superior A" -> "A")
   function obterLetraTreino(nomeTreino) {
     const partes = nomeTreino.toUpperCase().trim().split(' ')
     return partes[partes.length - 1] || '?'
@@ -143,7 +154,6 @@ export default function Perfil({ voltar, sair }) {
           </div>
         </div>
 
-        {/* 📊 PAINEL DE ESTATÍSTICAS REAIS */}
         <div className="perfil__card">
           <div className="perfil__card-header">
             <h3>ESTATÍSTICAS ATUAIS</h3>
@@ -165,7 +175,6 @@ export default function Perfil({ voltar, sair }) {
           </div>
         </div>
 
-        {/* 📋 LISTAGEM DE TREINOS SALVOS REAIS */}
         <div className="perfil__card">
           <div className="perfil__card-header">
             <h3>SEUS TREINOS SALVOS</h3>

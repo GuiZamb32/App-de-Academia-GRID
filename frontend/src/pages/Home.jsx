@@ -41,16 +41,17 @@ export default function Home({ usuario, sair, navegar }) {
               ▶ INICIAR
             </button>
             
-            <button 
-              className="home__profile-avatar" 
-              onClick={() => navegar('perfil')}
-              title="Ir para o Perfil"
-            >
-              <img 
-                src={usuario?.foto_perfil || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=150'} 
-                alt="Perfil" 
-              />
-            </button>
+           <button 
+            className="home__profile-avatar" 
+            onClick={() => navegar('perfil')}
+            title="Ir para o Perfil"
+          >
+            {/* 💡 BLINDADO: Se vier do Login usa 'foto_perfil', se vier do Update do Perfil usa 'foto' */}
+            <img 
+              src={usuario?.foto || usuario?.foto_perfil || '/icons/avatar_01.png'} 
+              alt="Perfil" 
+            />
+          </button>
           </div>
         </header>
 

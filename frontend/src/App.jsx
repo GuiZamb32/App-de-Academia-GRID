@@ -11,17 +11,14 @@ import Exercicios from './pages/Exercicios'
 import Perfil from './pages/Perfil'
 import TreinoAtual from './pages/TreinoAtual'
 
-
 import './styles/App.css'
 
 function App() {
   const [pagina, setPagina] = useState('login')
-
   const [usuario, setUsuario] = useState(null)
-
   const [treinoSelecionado, setTreinoSelecionado] = useState(null)
 
-  // verifica se existe usuario salvo
+  // verifica se existe usuario salvo ao iniciar
   useEffect(() => {
     const usuarioSalvo = localStorage.getItem('usuario')
 
@@ -46,10 +43,18 @@ function App() {
   function handleSair() {
     localStorage.removeItem('token')
     localStorage.removeItem('usuario')
-
     setUsuario(null)
-
     setPagina('login')
+  }
+
+  // 💡 NOVA FUNÇÃO: Sincroniza as alterações do Perfil no Estado e no LocalStorage
+  function handleAtualizarUsuarioLocal(novosDados) {
+    setUsuario((prev) => {
+      const usuarioAtualizado = { ...prev, ...novosDados }
+      // Atualiza o localStorage para manter salvo mesmo se atualizar a página (F5)
+      localStorage.setItem('usuario', JSON.stringify(usuarioAtualizado))
+      return usuarioAtualizado
+    })
   }
 
   return (
@@ -73,41 +78,38 @@ function App() {
 
       {/* HOME */}
       {pagina === 'home' && (
-       <Home
+        <Home
           usuario={usuario}
           sair={handleSair}
           navegar={setPagina}
         />
       )}
 
-    {/* TREINOS (TELA DE SELEÇÃO PARA INICIAR O TREINO ATUAL) */}
-    {pagina === 'treinos' && (
-      <Treinos
-        voltar={() => setPagina('home')}
-        // 🛑 Removemos o botão/propriedade de criar treino daqui se houver no componente
-        abrirCriarTreino={null} 
+      {/* TREINOS */}
+      {pagina === 'treinos' && (
+        <Treinos
+          voltar={() => setPagina('home')}
+          abrirCriarTreino={null} 
+          abrirExercicios={(treino) => {
+            setTreinoSelecionado(treino)
+            setPagina('treinoAtual')
+          }}
+        />
+      )}
 
-        // 💡 CORRIGIDO: Quando clicar no treino para iniciar, salva o treino selecionado e vai para a EXECUÇÃO (Treino Atual)
-        abrirExercicios={(treino) => {
-          setTreinoSelecionado(treino)
-          setPagina('treinoAtual') // 🔥 Mudado de 'exercicios' para 'treinoAtual'
-        }}
-      />
-    )}
-
-    {/* CRIAR TREINO */}
-    {pagina === 'criarTreino' && (
-      <CriarTreino
-        voltar={() => setPagina('treinos')}
-        selecionarTreino={(treino) => {
-          setTreinoSelecionado(treino) // Guarda o treino que foi clicado
-          setPagina('exercicios')      // Redireciona para a tela de exercícios
-        }}
-      />
-    )}
+      {/* CRIAR TREINO */}
+      {pagina === 'criarTreino' && (
+        <CriarTreino
+          voltar={() => setPagina('treinos')}
+          selecionarTreino={(treino) => {
+            setTreinoSelecionado(treino)
+            setPagina('exercicios')
+          }}
+        />
+      )}
 
       {/* EXERCICIOS */}
-     {pagina === 'exercicios' && (
+      {pagina === 'exercicios' && (
         <Exercicios
           treinoId={treinoSelecionado?.id}
           treinoNome={treinoSelecionado?.nome}
@@ -121,14 +123,16 @@ function App() {
           usuario={usuario}
           voltar={() => setPagina('home')}
           sair={handleSair}
+          // 💡 Sincronização em tempo real ativada aqui!
+          aoAtualizarPerfil={handleAtualizarUsuarioLocal}
         />
       )}
 
-      {/* Mude no seu App.jsx para ficar assim: */}
+      {/* TREINO ATUAL */}
       {pagina === 'treinoAtual' && (
         <TreinoAtual
-          treinoId={treinoSelecionado?.id}     // 🔥 PASSANDO O ID REAL
-          treinoNome={treinoSelecionado?.nome} // 🔥 PASSANDO O NOME REAL
+          treinoId={treinoSelecionado?.id}
+          treinoNome={treinoSelecionado?.nome}
           voltar={() => setPagina('home')}
         />
       )}

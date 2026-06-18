@@ -20,17 +20,40 @@ exports.cadastrar = async (req, res) => {
       })
     }
 
-    const senhaHash = await bcrypt.hash(senha, 10)
+   const senhaHash = await bcrypt.hash(senha, 10)
 
-    const novoUsuario = await pool.query(
-      `
-      INSERT INTO usuarios (nome, email, senha)
-      VALUES ($1, $2, $3)
-      RETURNING id, nome, email
-      `,
-      [nome, email, senhaHash]
-    )
+const avatares = [
+  '/icons/avatar_01.png',
+  '/icons/avatar_02.png',
+  '/icons/avatar_03.png',
+  '/icons/avatar_04.png'
+]
 
+const avatarAleatorio =
+  avatares[Math.floor(Math.random() * avatares.length)]
+
+const novoUsuario = await pool.query(
+  `
+  INSERT INTO usuarios (
+    nome,
+    email,
+    senha,
+    foto_perfil
+  )
+  VALUES ($1, $2, $3, $4)
+  RETURNING
+    id,
+    nome,
+    email,
+    foto_perfil AS foto
+  `,
+  [
+    nome,
+    email,
+    senhaHash,
+    avatarAleatorio
+  ]
+)
     res.status(201).json(novoUsuario.rows[0])
 
   } catch (err) {
@@ -80,14 +103,15 @@ exports.login = async (req, res) => {
       }
     )
 
-    res.json({
-      usuario: {
-        id: user.id,
-        nome: user.nome,
-        email: user.email,
-      },
-      token,
-    })
+   res.json({
+  usuario: {
+    id: user.id,
+    nome: user.nome,
+    email: user.email,
+    foto: user.foto_perfil
+  },
+  token
+})
 
   } catch (err) {
     console.log(err)

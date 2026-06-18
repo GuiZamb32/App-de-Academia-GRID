@@ -13,7 +13,10 @@ const usuarioRoutes = require('./routes/UsuarioRoutes')
 const app = express() 
 
 app.use(cors())
-app.use(express.json())
+
+// 💡 CORRIGIDO: Linhas atualizadas com limite de 10mb para suportar o Base64 das fotos de perfil
+app.use(express.json({ limit: '10mb' }))
+app.use(express.urlencoded({ limit: '10mb', extended: true }))
 
 // Configurando os endpoints do sistema
 app.use('/auth', authRoutes)

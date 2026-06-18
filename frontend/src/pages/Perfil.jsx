@@ -1,39 +1,56 @@
-// ==========================================
-// 1. ARQUIVO: Perfil.jsx
-// ==========================================
 import { useEffect, useState } from 'react'
 import '../styles/Perfil.css'
-import { buscarPerfil, atualizarPerfil } from '../services/api'
+import { buscarPerfil, atualizarPerfil, buscarEstatisticasUsuario, listarTreinos } from '../services/api'
 
 export default function Perfil({ voltar, sair }) {
   const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
   const [foto, setFoto] = useState('')
   const [editando, setEditando] = useState(false)
+  
+  // 💡 NOVOS ESTADOS: Estatísticas e treinos reais do banco
+  const [stats, setStats] = useState({ totalTreinos: 0, totalGrupos: 0, totalSeries: 0 })
+  const [treinos, setTreinos] = useState([])
 
   useEffect(() => {
     carregarPerfil()
+    carregarDadosAdicionais()
   }, [])
 
   async function carregarPerfil() {
     try {
       const data = await buscarPerfil()
-      setNome(data.nome)
-      setEmail(data.email)
-      setFoto(data.foto)
+      setNome(data.nome || '')
+      setEmail(data.email || '')
+      setFoto(data.foto || '')
     } catch (err) {
-      console.log(err)
+      console.log('Erro ao carregar dados do perfil:', err)
+    }
+  }
+
+  // 💡 NOVA FUNÇÃO: Busca as estatísticas e treinos do usuário em paralelo
+  async function carregarDadosAdicionais() {
+    try {
+      const [dadosStats, dadosTreinos] = await Promise.all([
+        buscarEstatisticasUsuario(),
+        listarTreinos()
+      ])
+      
+      setStats(dadosStats)
+      setTreinos(Array.isArray(dadosTreinos) ? dadosTreinos : [])
+    } catch (err) {
+      console.log('Erro ao carregar dados adicionais:', err)
     }
   }
 
   function handleImagem(e) {
-    if (!editando) return // Só muda a foto se estiver em modo de edição
+    if (!editando) return 
     const file = e.target.files[0]
     if (!file) return
 
     const reader = new FileReader()
     reader.onload = () => {
-      setFoto(reader.result)
+      setFoto(reader.result) // Salva em Base64 para enviar ao backend de forma simples
     }
     reader.readAsDataURL(file)
   }
@@ -49,8 +66,15 @@ export default function Perfil({ voltar, sair }) {
       alert('Perfil atualizado com sucesso!')
       setEditando(false)
     } catch (err) {
-      console.log(err)
+      console.log('Erro ao atualizar perfil:', err)
+      alert('Não foi possível salvar as alterações.')
     }
+  }
+
+  // Helper para pegar o sufixo/letra identificadora do treino (Ex: "Treino Superior A" -> "A")
+  function obterLetraTreino(nomeTreino) {
+    const partes = nomeTreino.toUpperCase().trim().split(' ')
+    return partes[partes.length - 1] || '?'
   }
 
   return (
@@ -119,49 +143,47 @@ export default function Perfil({ voltar, sair }) {
           </div>
         </div>
 
+        {/* 📊 PAINEL DE ESTATÍSTICAS REAIS */}
         <div className="perfil__card">
           <div className="perfil__card-header">
-            <h3>ESTATÍSTICAS</h3>
+            <h3>ESTATÍSTICAS ATUAIS</h3>
             <button className="perfil__dot-btn">•••</button>
           </div>
           <div className="perfil__stats">
             <div>
-              <strong>124</strong>
-              <span>Treinos Feitos</span>
+              <strong>{stats.totalTreinos}</strong>
+              <span>Treinos Salvos</span>
             </div>
             <div>
-              <strong>45</strong>
-              <span>Dias Treinados</span>
+              <strong>{stats.totalGrupos}</strong>
+              <span>Grupos Ativos</span>
             </div>
             <div>
-              <strong>1.3K</strong>
-              <span>Repetições</span>
+              <strong>{stats.totalSeries}</strong>
+              <span>Séries Totais</span>
             </div>
           </div>
         </div>
 
+        {/* 📋 LISTAGEM DE TREINOS SALVOS REAIS */}
         <div className="perfil__card">
           <div className="perfil__card-header">
             <h3>SEUS TREINOS SALVOS</h3>
             <button className="perfil__dot-btn">•••</button>
           </div>
           <div className="perfil__treinos">
-            <div className="perfil__treino">
-              <small>Treino</small>
-              <strong>A</strong>
-            </div>
-            <div className="perfil__treino">
-              <small>Treino</small>
-              <strong>B</strong>
-            </div>
-            <div className="perfil__treino">
-              <small>Treino</small>
-              <strong>C</strong>
-            </div>
-            <div className="perfil__treino">
-              <small>Treino</small>
-              <strong>D</strong>
-            </div>
+            {treinos.length === 0 ? (
+              <p style={{ color: '#636366', fontSize: '13px', padding: '10px 0' }}>
+                Nenhum treino salvo encontrado.
+              </p>
+            ) : (
+              treinos.map((treino) => (
+                <div key={treino.id} className="perfil__treino">
+                  <small>Treino</small>
+                  <strong>{obterLetraTreino(treino.nome)}</strong>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
@@ -179,4 +201,3 @@ export default function Perfil({ voltar, sair }) {
     </div>
   )
 }
-

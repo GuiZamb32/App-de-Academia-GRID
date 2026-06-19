@@ -3,7 +3,7 @@
 const router = require('express').Router()
 
 const authMiddleware = require('../middlewares/authMiddleware')
-const usuarioController = require('../controllers/UsuarioController') 
+const usuarioController = require('../controllers/usuarioController') 
 
 router.get(
   '/perfil',

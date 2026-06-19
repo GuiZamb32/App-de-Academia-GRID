@@ -3,7 +3,7 @@
 const router = require('express').Router()
 
 // 💡 Variável em minúsculo chamando o arquivo real que começa com Maiúscula
-const treinoController = require('../controllers/TreinoController')
+const treinoController = require('../controllers/treinoController')
 const authMiddleware = require('../middlewares/authMiddleware')
 
 router.post(

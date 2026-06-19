@@ -4,11 +4,11 @@ const express = require('express')
 const cors = require('cors')
 
 // Importando as rotas (com a primeira letra maiúscula para bater com seus arquivos)
-const authRoutes = require('./routes/AuthRoutes')
-const userRoutes = require('./routes/UserRoutes')
-const treinoRoutes = require('./routes/TreinoRoutes')
-const exercicioRoutes = require('./routes/ExercicioRoutes')
-const usuarioRoutes = require('./routes/UsuarioRoutes')
+const authRoutes = require('./routes/authRoutes')
+const userRoutes = require('./routes/userRoutes')
+const treinoRoutes = require('./routes/treinoRoutes')
+const exercicioRoutes = require('./routes/exercicioRoutes')
+const usuarioRoutes = require('./routes/usuarioRoutes')
 
 const app = express() 
 

@@ -2,7 +2,7 @@
 
 const router = require('express').Router()
 
-const authMiddleware = require('../middlewares/AuthMiddleware')
+const authMiddleware = require('../middlewares/authMiddleware')
 const usuarioController = require('../controllers/UsuarioController') 
 
 router.get(

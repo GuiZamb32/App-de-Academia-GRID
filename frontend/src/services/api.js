@@ -1,4 +1,9 @@
-const API_URL = 'http://localhost:3001'
+// linha antiga:
+// const API_URL = 'http://localhost:3001'
+
+// URL do backend que está no Render:
+const API_URL = 'https://app-de-academia-grid-api.onrender.com'
+
 
 export async function cadastrarUsuario(dados) {
   const response = await fetch(`${API_URL}/auth/cadastro`, {

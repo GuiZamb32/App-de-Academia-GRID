@@ -19,7 +19,7 @@ function App() {
   const [carregando, setCarregando] =
     useState(true)
 
-  // Restaura dados do localStorage
+  
   useEffect(() => {
     const usuarioSalvo =
       localStorage.getItem('usuario')

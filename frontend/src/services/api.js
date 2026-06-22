@@ -179,14 +179,15 @@ export async function atualizarPerfil(
 
 export async function buscarEstatisticasUsuario() {
   const token = localStorage.getItem('token')
-  
-  const response = await fetch('http://localhost:3001/usuario/estatisticas', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+
+  const response = await fetch(
+    `${API_URL}/usuario/estatisticas`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     }
-  })
+  )
 
   if (!response.ok) {
     throw new Error('Falha ao carregar os dados do painel.')
@@ -196,30 +197,38 @@ export async function buscarEstatisticasUsuario() {
 }
 
 export async function excluirTreino(id) {
-  const token = localStorage.getItem('token');
-  const response = await fetch(`http://localhost:3001/treinos/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${token}`
+  const token = localStorage.getItem('token')
+
+  const response = await fetch(
+    `${API_URL}/treinos/${id}`,
+    {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     }
-  });
+  )
 
   if (!response.ok) {
-    const data = await response.json();
-    throw new Error(data.erro || 'Erro ao deletar treino');
+    const data = await response.json()
+    throw new Error(data.erro || 'Erro ao deletar treino')
   }
 
-  return await response.json();
+  return await response.json()
 }
 
 export async function excluirExercicio(id) {
   const token = localStorage.getItem('token')
-  const response = await fetch(`http://localhost:3001/exercicios/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${token}`
+
+  const response = await fetch(
+    `${API_URL}/exercicios/${id}`,
+    {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     }
-  })
+  )
 
   if (!response.ok) {
     const data = await response.json()

@@ -47,21 +47,29 @@ function App() {
 
   // Verifica se existe usuário salvo
   useEffect(() => {
-    const usuarioSalvo =
-      localStorage.getItem('usuario')
+  const usuarioSalvo = localStorage.getItem('usuario')
 
-    if (usuarioSalvo) {
-      setUsuario(
-        JSON.parse(usuarioSalvo)
-      )
+  console.log('Executando useEffect')
+  console.log('usuarioSalvo:', usuarioSalvo)
 
-      const paginaSalva =
-        localStorage.getItem('paginaAtual') ||
-        'home'
+  if (usuarioSalvo) {
+    setUsuario(JSON.parse(usuarioSalvo))
 
-      setPagina(paginaSalva)
+    const paginaSalva =
+      localStorage.getItem('paginaAtual') || 'home'
+
+    console.log('paginaSalva:', paginaSalva)
+
+    const treinoSalvo =
+      localStorage.getItem('treinoSelecionado')
+
+    if (treinoSalvo) {
+      setTreinoSelecionado(JSON.parse(treinoSalvo))
     }
-  }, [])
+
+    setPagina(paginaSalva)
+  }
+}, [])
 
   // Login
   function handleEntrar() {
@@ -108,6 +116,10 @@ function App() {
     })
   }
 
+    console.log('Página:', pagina)
+    console.log('Usuário:', usuario)
+    console.log('Treino:', treinoSelecionado)
+
   return (
     <div className="app">
 
@@ -149,12 +161,21 @@ function App() {
             setPagina('home')
           }
           abrirCriarTreino={null}
-          abrirExercicios={(treino) => {
-            setTreinoSelecionado(
-              treino
-            )
-            setPagina('treinoAtual')
-          }}
+         abrirExercicios={(treino) => {
+         setTreinoSelecionado(treino)
+
+        localStorage.setItem(
+          'treinoSelecionado',
+          JSON.stringify(treino)
+        )
+
+        localStorage.setItem(
+          'paginaAtual',
+          'treinoAtual'
+        )
+
+        setPagina('treinoAtual')
+      }}
         />
       )}
 

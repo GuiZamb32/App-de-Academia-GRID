@@ -179,16 +179,25 @@ export default function TreinoAtual({
   }
 
   function finalizarTreino() {
-    localStorage.removeItem(
-      `treino_progresso_${treinoId}`
-    )
+  localStorage.removeItem(
+    `treino_progresso_${treinoId}`
+  )
 
-    localStorage.removeItem(
-      `treino_tempo_${treinoId}`
-    )
+  localStorage.removeItem(
+    `treino_tempo_${treinoId}`
+  )
 
-    voltar()
-  }
+  localStorage.removeItem(
+    'treinoSelecionado'
+  )
+
+  localStorage.setItem(
+    'paginaAtual',
+    'home'
+  )
+
+  voltar()
+}
 
   const totalExercicios = exercicios.length
 

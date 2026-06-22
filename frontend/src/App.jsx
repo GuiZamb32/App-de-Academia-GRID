@@ -3,11 +3,9 @@ import { useEffect, useState } from 'react'
 import Login from './pages/Login'
 import Cadastro from './pages/Cadastro'
 import Home from './pages/Home'
-
 import Treinos from './pages/Treinos'
 import CriarTreino from './pages/CriarTreino'
 import Exercicios from './pages/Exercicios'
-
 import Perfil from './pages/Perfil'
 import TreinoAtual from './pages/TreinoAtual'
 
@@ -16,60 +14,64 @@ import './styles/App.css'
 function App() {
   const [pagina, setPagina] = useState('login')
   const [usuario, setUsuario] = useState(null)
-
   const [treinoSelecionado, setTreinoSelecionado] =
-    useState(() => {
-      const treinoSalvo =
-        localStorage.getItem('treinoSelecionado')
+    useState(null)
+  const [carregando, setCarregando] =
+    useState(true)
 
-      return treinoSalvo
-        ? JSON.parse(treinoSalvo)
-        : null
-    })
+  // Restaura dados do localStorage
+  useEffect(() => {
+    const usuarioSalvo =
+      localStorage.getItem('usuario')
+
+    const paginaSalva =
+      localStorage.getItem('paginaAtual')
+
+    const treinoSalvo =
+      localStorage.getItem('treinoSelecionado')
+
+    if (usuarioSalvo) {
+      setUsuario(JSON.parse(usuarioSalvo))
+    }
+
+    if (paginaSalva) {
+      setPagina(paginaSalva)
+    }
+
+    if (treinoSalvo) {
+      setTreinoSelecionado(
+        JSON.parse(treinoSalvo)
+      )
+    }
+
+    setCarregando(false)
+  }, [])
 
   // Salva a página atual
   useEffect(() => {
-    localStorage.setItem(
-      'paginaAtual',
-      pagina
-    )
-  }, [pagina])
+    if (!carregando) {
+      localStorage.setItem(
+        'paginaAtual',
+        pagina
+      )
+    }
+  }, [pagina, carregando])
 
   // Salva o treino selecionado
   useEffect(() => {
     if (treinoSelecionado) {
       localStorage.setItem(
         'treinoSelecionado',
-        JSON.stringify(treinoSelecionado)
+        JSON.stringify(
+          treinoSelecionado
+        )
       )
     }
   }, [treinoSelecionado])
 
-  // Verifica se existe usuário salvo
-  useEffect(() => {
-  const usuarioSalvo = localStorage.getItem('usuario')
-
-  console.log('Executando useEffect')
-  console.log('usuarioSalvo:', usuarioSalvo)
-
-  if (usuarioSalvo) {
-    setUsuario(JSON.parse(usuarioSalvo))
-
-    const paginaSalva =
-      localStorage.getItem('paginaAtual') || 'home'
-
-    console.log('paginaSalva:', paginaSalva)
-
-    const treinoSalvo =
-      localStorage.getItem('treinoSelecionado')
-
-    if (treinoSalvo) {
-      setTreinoSelecionado(JSON.parse(treinoSalvo))
-    }
-
-    setPagina(paginaSalva)
+  function mudarPagina(novaPagina) {
+    setPagina(novaPagina)
   }
-}, [])
 
   // Login
   function handleEntrar() {
@@ -82,7 +84,7 @@ function App() {
       )
     }
 
-    setPagina('home')
+    mudarPagina('home')
   }
 
   // Logout
@@ -90,14 +92,16 @@ function App() {
     localStorage.removeItem('token')
     localStorage.removeItem('usuario')
     localStorage.removeItem('paginaAtual')
-    localStorage.removeItem('treinoSelecionado')
+    localStorage.removeItem(
+      'treinoSelecionado'
+    )
 
     setUsuario(null)
     setTreinoSelecionado(null)
-    setPagina('login')
+    mudarPagina('login')
   }
 
-  // Atualiza dados do usuário
+  // Atualiza usuário
   function handleAtualizarUsuarioLocal(
     novosDados
   ) {
@@ -109,92 +113,87 @@ function App() {
 
       localStorage.setItem(
         'usuario',
-        JSON.stringify(usuarioAtualizado)
+        JSON.stringify(
+          usuarioAtualizado
+        )
       )
 
       return usuarioAtualizado
     })
   }
 
-    console.log('Página:', pagina)
-    console.log('Usuário:', usuario)
-    console.log('Treino:', treinoSelecionado)
+  if (carregando) {
+    return null
+  }
 
   return (
     <div className="app">
 
-      {/* LOGIN */}
       {pagina === 'login' && (
         <Login
           irCadastro={() =>
-            setPagina('cadastro')
+            mudarPagina('cadastro')
           }
           entrar={handleEntrar}
         />
       )}
 
-      {/* CADASTRO */}
       {pagina === 'cadastro' && (
         <Cadastro
           voltar={() =>
-            setPagina('login')
+            mudarPagina('login')
           }
           criarConta={() =>
-            setPagina('login')
+            mudarPagina('login')
           }
         />
       )}
 
-      {/* HOME */}
       {pagina === 'home' && (
         <Home
           usuario={usuario}
           sair={handleSair}
-          navegar={setPagina}
+          navegar={mudarPagina}
         />
       )}
 
-      {/* TREINOS */}
       {pagina === 'treinos' && (
         <Treinos
           voltar={() =>
-            setPagina('home')
+            mudarPagina('home')
           }
           abrirCriarTreino={null}
-         abrirExercicios={(treino) => {
-         setTreinoSelecionado(treino)
-
-        localStorage.setItem(
-          'treinoSelecionado',
-          JSON.stringify(treino)
-        )
-
-        localStorage.setItem(
-          'paginaAtual',
-          'treinoAtual'
-        )
-
-        setPagina('treinoAtual')
-      }}
-        />
-      )}
-
-      {/* CRIAR TREINO */}
-      {pagina === 'criarTreino' && (
-        <CriarTreino
-          voltar={() =>
-            setPagina('treinos')
-          }
-          selecionarTreino={(treino) => {
+          abrirExercicios={(treino) => {
             setTreinoSelecionado(
               treino
             )
-            setPagina('exercicios')
+
+            localStorage.setItem(
+              'treinoSelecionado',
+              JSON.stringify(treino)
+            )
+
+            mudarPagina('treinoAtual')
           }}
         />
       )}
 
-      {/* EXERCÍCIOS */}
+      {pagina === 'criarTreino' && (
+        <CriarTreino
+          voltar={() =>
+            mudarPagina('treinos')
+          }
+          selecionarTreino={(
+            treino
+          ) => {
+            setTreinoSelecionado(
+              treino
+            )
+            mudarPagina('exercicios')
+          }}
+        />
+      )}
+
       {pagina === 'exercicios' && (
         <Exercicios
           treinoId={
@@ -204,17 +203,16 @@ function App() {
             treinoSelecionado?.nome
           }
           voltar={() =>
-            setPagina('treinos')
+            mudarPagina('treinos')
           }
         />
       )}
 
-      {/* PERFIL */}
       {pagina === 'perfil' && (
         <Perfil
           usuario={usuario}
           voltar={() =>
-            setPagina('home')
+            mudarPagina('home')
           }
           sair={handleSair}
           aoAtualizarPerfil={
@@ -223,7 +221,6 @@ function App() {
         />
       )}
 
-      {/* TREINO ATUAL */}
       {pagina === 'treinoAtual' && (
         <TreinoAtual
           treinoId={
@@ -233,11 +230,10 @@ function App() {
             treinoSelecionado?.nome
           }
           voltar={() =>
-            setPagina('home')
+            mudarPagina('home')
           }
         />
       )}
-
     </div>
   )
 }

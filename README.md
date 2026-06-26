@@ -1,76 +1,183 @@
-#  GRID 
+#  GRID - Sistema de Gerenciamento de Treinos
 
 <p align="center">
-  <img width="400" height="400" src="https://github.com/GuiZamb32/App-de-Academia-GRID/blob/main/frontend/public/Logo_GRID.png?raw=true" alt="Logo_GRID">
+  <img src="https://github.com/GuiZamb32/App-de-Academia-GRID/blob/main/frontend/public/Logo_GRID.png?raw=true" width="350" alt="Logo GRID">
 </p>
 
+<p align="center">
 
-Sistema Full Stack para gerenciamento de treinos de academia. O projeto permite o cadastro de usuários, criação de rotas de treino customizadas e organização de exercícios por grupo muscular com controle de carga.
+![React](https://img.shields.io/badge/React-19-blue)
+![Node](https://img.shields.io/badge/Node.js-22-green)
+![Express](https://img.shields.io/badge/Express-Backend-black)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
+![JWT](https://img.shields.io/badge/JWT-Authentication-orange)
+![License](https://img.shields.io/badge/license-MIT-green)
 
+</p>
 
+---
 
-##  Tecnologias
+##  Sobre o Projeto
 
-### Backend
-* **Node.js** (Ambiente de execução)
-* **Express** (Framework web)
-* **PostgreSQL** (Banco de dados relacional)
-* **JWT** (Autenticação baseada em tokens)
-* **bcrypt** (Criptografia de senhas)
-* **dotenv** (Gerenciamento de variáveis de ambiente)
+O **GRID** é uma aplicação Full Stack desenvolvida para auxiliar praticantes de musculação no gerenciamento de seus treinos.
 
-### Frontend
-* **React** (Biblioteca UI)
-* **Vite** (Build tool rápida)
-* **CSS Modules** (Estilização escopada)
-* **Fetch API** (Consumo da API)
+A plataforma permite:
 
+- Cadastro e autenticação de usuários;
+- Criação de treinos personalizados;
+- Cadastro de exercícios;
+- Organização dos exercícios por grupos musculares;
+- Controle de séries, repetições e carga;
+- Persistência da sessão do usuário;
+- Recuperação automática do último treino acessado.
 
+O projeto foi desenvolvido utilizando **React**, **Node.js**, **Express** e **PostgreSQL**, seguindo uma arquitetura cliente-servidor.
 
-## 📂 Estrutura do Projeto
+---
+
+#  Funcionalidades
+
+##  Usuários
+
+- Cadastro de conta;
+- Login e Logout;
+- Autenticação via JWT;
+- Atualização de dados do perfil;
+- Alteração de foto de perfil;
+- Persistência do usuário após atualização da página.
+
+---
+
+##  Treinos
+
+- Criar treinos personalizados;
+- Listar treinos do usuário;
+- Selecionar treino atual;
+- Persistência do treino selecionado;
+- Recuperação automática do último treino acessado.
+
+---
+
+##  Exercícios
+
+- Cadastro de exercícios;
+- Definição de:
+  - Nome;
+  - Grupo muscular;
+  - Séries;
+  - Repetições;
+  - Carga.
+
+---
+
+##  Persistência de Dados
+
+A aplicação utiliza o **localStorage** para armazenar:
+
+- Usuário logado;
+- Página atual;
+- Treino selecionado.
+
+Isso permite que o usuário continue de onde parou mesmo após atualizar o navegador.
+
+---
+
+#  Tecnologias Utilizadas
+
+## Backend
+
+- Node.js
+- Express
+- PostgreSQL
+- JWT
+- bcrypt
+- dotenv
+- CORS
+
+## Frontend
+
+- React
+- Vite
+- CSS3
+- Fetch API
+- LocalStorage API
+
+---
+
+#  Arquitetura do Projeto
+
+```text
+Frontend (React)
+       ↓
+    Fetch API
+       ↓
+Backend (Express)
+       ↓
+ PostgreSQL
 ```
-App-de-Academia-GRID/
+
+---
+
+#  Estrutura do Projeto
+
+```text
+App-de-Academia-GRID
 │
-├── backend/
-│   ├── src/
-│   ├── controllers/
-│   ├── db/
-│   ├── middleware/
-│   ├── routes/
-│   ├── server.js
-│   └── app.js
+├── backend
+│   ├── src
+│   │   ├── controllers
+│   │   ├── database
+│   │   ├── middlewares
+│   │   ├── routes
+│   │   └── server.js
+│   │
+│   ├── .env
+│   └── package.json
 │
-├── frontend/
-│   ├── src/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   ├── styles/
+├── frontend
+│   ├── public
+│   ├── src
+│   │   ├── pages
+│   │   ├── services
+│   │   ├── styles
 │   │   ├── App.jsx
 │   │   └── main.jsx
+│   │
+│   └── package.json
 │
 └── README.md
 ```
 
+---
 
-## ⚙️ Instalação e Configuração
-### 1. Clonar o Repositório
-```
-git clone https://github.com/seu-usuario/App-de-Academia-GRID.git
+#  Instalação
+
+## 1. Clonar o repositório
+
+```bash
+git clone https://github.com/GuiZamb32/App-de-Academia-GRID.git
 cd App-de-Academia-GRID
-
-
-```
-### 2. Configuração do Banco de Dados (PostgreSQL)
-
-Abra o pgAdmin (ou seu SGBD de preferência), crie um banco de dados chamado grid_academia e execute as seguintes queries para criar as tabelas:
 ```
 
+---
 
+#  Configuração do Banco de Dados
+
+Crie um banco chamado:
+
+```text
+grid_academia
+```
+
+Execute:
+
+```sql
 CREATE TABLE usuarios (
   id SERIAL PRIMARY KEY,
   nome VARCHAR(100),
   email VARCHAR(100) UNIQUE,
-  senha TEXT
+  senha TEXT,
+  foto TEXT
 );
 
 CREATE TABLE treinos (
@@ -88,21 +195,22 @@ CREATE TABLE exercicios (
   reps INTEGER,
   carga NUMERIC
 );
-
-
 ```
-### 3. Configuração do Backend
-```
-Entre na pasta correspondente, instale as dependências e configure o ambiente:
 
+---
+
+#  Executando o Backend
+
+```bash
 cd backend
 npm install
 npm install nodemon --save-dev
+npm run dev
 ```
 
-Crie um arquivo .env na raiz da pasta backend/ com as seguintes variáveis:
+Crie um arquivo `.env`:
 
-```
+```env
 PORT=3001
 DB_HOST=localhost
 DB_PORT=5432
@@ -112,86 +220,147 @@ DB_NAME=grid_academia
 JWT_SECRET=grid_secret
 ```
 
-Para iniciar o servidor de desenvolvimento:
-npm run dev
+Servidor:
 
-> Servidor rodando em: http://localhost:3001
+```text
+http://localhost:3001
+```
 
+---
 
-### 4. Configuração do Frontend
-Abra um novo terminal, navegue até a pasta do frontend e inicie a aplicação:
+#  Executando o Frontend
 
+```bash
 cd frontend
 npm install
 npm run dev
-
-> Frontend rodando em: http://localhost:5173
-
-
-
-
-## 🔐 Funcionalidades Atuais
-
-* **Usuário:** Cadastro, Login e Logout (com privacidade e segurança via JWT).
-* **Treinos:** Criação e listagem de treinos personalizados por usuário.
-* **Exercícios:** Vínculo de exercícios aos treinos, com controle de séries, repetições e peso.
-
-
-
-
-## 📡 Rotas da API
-
-### Autenticação (/auth)
-
-* POST /auth/cadastro - Registra um novo usuário
-* POST /auth/login - Autentica o usuário e retorna o token JWT
 ```
-Exemplo de Body (Cadastro):
+
+Aplicação:
+
+```text
+http://localhost:5173
+```
+
+---
+
+#  Rotas da API
+
+## Autenticação
+
+### Cadastro
+
+```http
+POST /auth/cadastro
+```
+
+```json
 {
   "nome": "Guilherme",
   "email": "gui@email.com",
   "senha": "123456"
 }
 ```
-### Treinos (/treinos)
 
-* GET /treinos - Lista todos os treinos do usuário autenticado
-* POST /treinos - Cria um novo treino
+---
+
+### Login
+
+```http
+POST /auth/login
 ```
-Exemplo de Body (Criar Treino):
+
+---
+
+## Treinos
+
+### Listar Treinos
+
+```http
+GET /treinos
+```
+
+### Criar Treino
+
+```http
+POST /treinos
+```
+
+```json
 {
   "nome": "Treino A"
 }
 ```
-### Exercícios (/exercicios)
 
-* GET /exercicios/:treinoId - Lista os exercícios vinculados a um treino específico
-* POST /exercicios - Adiciona um novo exercício ao treino
+---
+
+## Exercícios
+
+### Listar Exercícios
+
+```http
+GET /exercicios/:treinoId
 ```
-Exemplo de Body (Criar Exercício):
+
+### Criar Exercício
+
+```http
+POST /exercicios
+```
+
+```json
 {
   "treino_id": 1,
-  "nome": "Supino",
+  "nome": "Supino Reto",
   "grupo": "Peito",
-  "series": 3,
+  "series": 4,
   "reps": 12,
-  "carga": 20
+  "carga": 30
 }
 ```
 
+---
 
-##  Próximas Features
+#  Telas do Sistema
 
-- [ ] Editar e excluir exercícios/treinos
-- [ ] Dashboard com gráficos de evolução
+- Login
+- Cadastro
+- Home
+- Perfil
+- Treinos
+- Exercícios
+- Treino Atual
+
+> Recomenda-se adicionar capturas de tela aqui futuramente.
+
+---
+
+#  Próximas Funcionalidades
+
+- [ ] Editar exercícios
+- [ ] Excluir exercícios
+- [ ] Editar treinos
+- [ ] Excluir treinos
 - [ ] Histórico de treinos concluídos
-- [ ] Gráfico de progressão de carga
-- [ ] Timer integrado para descanso entre séries
-- [ ] Tela de gerenciamento do perfil do usuário
-- [ ] Dark mode avançado
+- [ ] Dashboard de evolução
+- [ ] Gráficos de progressão de carga
+- [ ] Timer de descanso
+- [ ] Sistema de notificações
+- [ ] Dark Mode completo
+- [ ] Responsividade para tablets e smartphones
 
+---
 
+#  Autor
 
-##  Autor
+**Guilherme Zamboni Menegacio**
 
-Desenvolvido por Guilherme Zamboni Menegacio.
+GitHub:
+
+https://github.com/GuiZamb32
+
+---
+
+# 📄 Licença
+
+Este projeto foi desenvolvido para fins acadêmicos e de aprendizado.

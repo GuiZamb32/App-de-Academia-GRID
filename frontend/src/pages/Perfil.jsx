@@ -3,7 +3,13 @@ import '../styles/Perfil.css'
 import { buscarPerfil, atualizarPerfil, buscarEstatisticasUsuario, listarTreinos } from '../services/api'
 
 // 💡 Adicionamos 'aoAtualizarPerfil' nas propriedades recebidas do componente pai
-export default function Perfil({ voltar, sair, aoAtualizarPerfil }) {
+export default function Perfil({
+  usuario,
+  voltar,
+  sair,
+  aoAtualizarPerfil,
+  navegar
+}) {
   const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
   const [foto, setFoto] = useState('')
@@ -155,25 +161,34 @@ export default function Perfil({ voltar, sair, aoAtualizarPerfil }) {
         </div>
 
         <div className="perfil__card">
-          <div className="perfil__card-header">
-            <h3>ESTATÍSTICAS ATUAIS</h3>
-            <button className="perfil__dot-btn">•••</button>
+        <div className="perfil__card-header">
+          <h3>ESTATÍSTICAS ATUAIS</h3>
+
+          <button
+            className="perfil__dot-btn"
+            onClick={() => navegar('estatisticas')}
+          >
+            •••
+          </button>
+        </div>
+
+        <div className="perfil__stats">
+          <div>
+            <strong>{stats.totalTreinos}</strong>
+            <span>Treinos Salvos</span>
           </div>
-          <div className="perfil__stats">
-            <div>
-              <strong>{stats.totalTreinos}</strong>
-              <span>Treinos Salvos</span>
-            </div>
-            <div>
-              <strong>{stats.totalGrupos}</strong>
-              <span>Grupos Ativos</span>
-            </div>
-            <div>
-              <strong>{stats.totalSeries}</strong>
-              <span>Séries Totais</span>
-            </div>
+
+          <div>
+            <strong>{stats.totalGrupos}</strong>
+            <span>Grupos Ativos</span>
+          </div>
+
+          <div>
+            <strong>{stats.totalSeries}</strong>
+            <span>Séries Totais</span>
           </div>
         </div>
+      </div>
 
         <div className="perfil__card">
           <div className="perfil__card-header">

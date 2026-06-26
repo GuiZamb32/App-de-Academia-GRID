@@ -8,6 +8,7 @@ import CriarTreino from './pages/CriarTreino'
 import Exercicios from './pages/Exercicios'
 import Perfil from './pages/Perfil'
 import TreinoAtual from './pages/TreinoAtual'
+import Estatisticas from './pages/Estatisticas'
 
 import './styles/App.css'
 
@@ -210,13 +211,19 @@ function App() {
 
       {pagina === 'perfil' && (
         <Perfil
+        usuario={usuario}
+        voltar={() => setPagina('home')}
+        sair={handleSair}
+        aoAtualizarPerfil={handleAtualizarUsuarioLocal}
+        navegar={setPagina}
+        />
+      )}
+
+      {pagina === 'estatisticas' && (
+        <Estatisticas
           usuario={usuario}
           voltar={() =>
-            mudarPagina('home')
-          }
-          sair={handleSair}
-          aoAtualizarPerfil={
-            handleAtualizarUsuarioLocal
+            setPagina('perfil')
           }
         />
       )}

@@ -1,4 +1,4 @@
-import './Estatisticas.css'
+import '../styles/Estatisticas.css'
 
 function Estatisticas({
   estatisticas,
